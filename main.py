@@ -18,7 +18,7 @@ today = datetime.today()
 
 # Calculate current week
 days_since_start = (today - START_DATE).days
-current_week_number = max(1, (days_since_start // 7) + 1)
+default_week = max(1, (days_since_start // 7) + 1)
 
 
 # Initialize session state
