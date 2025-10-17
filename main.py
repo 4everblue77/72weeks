@@ -7,6 +7,10 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
+params = st.query_params
+if "day" in params and "section" in params:
+    st.switch_page("pages/details")
+
 user_id = "123e4567-e89b-12d3-a456-426614174000"
 week = "Week 1"
 
@@ -37,6 +41,7 @@ for section in sections:
         
         st.query_params["day"] = selected_day
         st.query_params["section"] = section
+        st.rerun()  # Refresh to apply query params
 
         st.switch_page("pages/details.py")
 
