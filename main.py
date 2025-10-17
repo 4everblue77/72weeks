@@ -49,4 +49,4 @@ if st.session_state.pending_navigation:
     if st.button("Go to Details Page"):
         st.query_params["day"] = st.session_state.pending_navigation["day"]
         st.query_params["section"] = st.session_state.pending_navigation["section"]
-        st.switch_page("pages/details")
+        st.switch_page("pages/details.py")
