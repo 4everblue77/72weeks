@@ -78,8 +78,8 @@ if days:
           day_date = week_start_date + timedelta(days=i)
           status = "✅" if day_status.get(day, False) else "❌"
           highlight = "**" if i == current_day_index else ""
-          st.markdown(f"{highlight}{day}\n{day_date.strftime('%a')}\n{status}{highlight}")
-          if st.button(f"Select {day}"):
+          ## st.markdown(f"{highlight}{day}\n{day_date.strftime('%a')}\n{status}{highlight}")
+          if st.button(f"day_date.strftime('%a')"):
             st.session_state.selected_day = day
 
 else:
