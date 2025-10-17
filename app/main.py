@@ -30,6 +30,6 @@ for section in sections:
     completed = completed_resp.data[0]['completed'] if completed_resp.data else False
     status = "✅" if completed else "❌"
     if st.button(f"{section} {status}"):
-        st.experimental_set_query_params(day=selected_day, section=section)
+        st.set_query_params(day=selected_day, section=section)
         st.switch_page("details.py")
 
