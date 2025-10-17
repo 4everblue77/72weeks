@@ -9,7 +9,7 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 user_id = "123e4567-e89b-12d3-a456-426614174000"
 week = "Week 1"
 
-params = st.query_params()
+params = st.query_params
 selected_day = params.get("day", [""])[0]
 section = params.get("section", [""])[0]
 
