@@ -62,9 +62,12 @@ completion_data = completion_resp.data
 # Build completion map
 
 
+
 weekday_map = {
-    0: "Mon", 1: "Tue", 2: "Wed", 3: "Thu", 4: "Fri", 5: "Sat", 6: "Sun"
+    1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
 }
+
+
 
 
 
@@ -79,6 +82,7 @@ for day in days:
 
 
 
+
 # Horizontal day selector
 ##st.markdown("### Select a Day")
 
@@ -87,20 +91,15 @@ for day in days:
 
 if days:
     cols = st.columns(7)
-    selected = False # track if a button is pressed
+    selected = False
     for i, day in enumerate(days):
-        day_label = weekday_map.get(day, str(day))
-        with cols[i]:
-            # Determine button color
-            if day in day_status:
-                button_color = "#4CAF50" if day_status[day] else "#F44336"  # Green or Red
-            else:
-                button_color = "#FFFFFF"  # White for no workouts
+        day_label = weekday_map.get(day, str(day))  # Convert int to weekday name
 
-            button_key = f"day-{str(day).replace(' ', '-')}"
+        with cols[i]:
+            button_color = "#4CAF50" if day_status.get(day) else "#F44336"
+            button_key = f"day-{day}"
             highlight_style = "font-weight: bold;" if i == current_day_index else ""
 
-            # Inject scoped style
             st.markdown(f"""
                 <style>
                 button[data-testid="baseButton"][aria-label="{button_key}"] {{
@@ -115,12 +114,10 @@ if days:
                 </style>
             """, unsafe_allow_html=True)
 
-            # Render button
             if st.button(day_label, key=button_key):
                 st.session_state.selected_day = day
                 selected = True
-                
-    # Default to today if no button was clicked
+
     if not selected and "selected_day" not in st.session_state:
         st.session_state.selected_day = days[current_day_index]
 
