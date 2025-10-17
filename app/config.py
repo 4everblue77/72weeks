@@ -1,0 +1,4 @@
+
+# Supabase configuration
+SUPABASE_URL = "https://your-project.supabase.co"
+SUPABASE_KEY = "your-anon-key"
