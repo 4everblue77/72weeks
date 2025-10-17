@@ -132,8 +132,8 @@ if days:
 
 
 
-  # Default to today if no button was clicked
-  if not selected and "selected_day" not in st.session_state and current_day_index is not None:
+    # Default to today if no button was clicked
+    if not selected and "selected_day" not in st.session_state and current_day_index is not None:
       st.session_state.selected_day = current_day_index + 1
 
 
