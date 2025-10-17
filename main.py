@@ -46,7 +46,7 @@ week_range = f"Week {selected_week}: {week_start_date.strftime('%b %d')} - {week
 st.markdown(f"### 📅 {week_range}")
 
 # Determine current day index (0=Mon, 6=Sun)
-current_day_index = (today - week_start_date).days if week_start_date <= today <= week_end_date else None
+current_day_index = (today - week_start_date).days if week_start_date <= today <= week_end_date else ""
 
 
 # Fetch workouts
@@ -94,7 +94,7 @@ weekday_map = {
 }
 
 
-if days:
+if workouts:
   cols = st.columns(len(all_days))
   selected = False
    
@@ -110,7 +110,11 @@ if days:
               button_color = "#DDDDDD"  # Grey for placeholder
   
           button_key = f"day-{day}"
-          highlight_style = "font-weight: bold;" if day == current_day_index +1 else ""
+          
+          highlight_style = ""
+          if current_day_index is not None and day == current_day_index + 1:
+              highlight_style = "font-weight: bold;"
+
   
           st.markdown(f"""
               <style>
