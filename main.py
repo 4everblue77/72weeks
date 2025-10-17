@@ -50,7 +50,7 @@ for section in sections:
         st.query_params["section"] = section
         st.write("DEBUG: Query params set →", st.query_params)
 
-        ### st.rerun()  # Refresh to apply query params
+        st.rerun()  # Refresh to apply query params
 
-        # st.switch_page("pages/details.py")
+        st.switch_page("pages/details.py")
 
