@@ -81,11 +81,11 @@ for day in days:
 
 
 # Horizontal day selector
-st.markdown("### Select a Day")
+##st.markdown("### Select a Day")
 
 
 
-weekday_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+weekday_names = ["M", "T", "W", "T", "F", "S", "S"]
 if days:
     cols = st.columns(7)
     selected = False # track if a button is pressed
