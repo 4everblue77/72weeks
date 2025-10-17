@@ -33,20 +33,11 @@ for section in sections:
     completed_resp = supabase.table("completion").select("completed").eq("user_id", user_id).eq("week", week).eq("day", selected_day).eq("section", section).execute()
     completed = completed_resp.data[0]['completed'] if completed_resp.data else False
     status = "✅" if completed else "❌"
-    
+
+
+
     if st.button(f"{section} {status}"):
-        st.session_state.pending_navigation = {
-            "day": selected_day,
-            "section": section
-        }
-
-# Show debug and manual navigation button
-if st.session_state.pending_navigation:
-    st.write("✅ DEBUG: Query parameters prepared")
-    st.write("Day:", st.session_state.pending_navigation["day"])
-    st.write("Section:", st.session_state.pending_navigation["section"])
-
-    if st.button("Go to Details Page"):
-        st.query_params["day"] = st.session_state.pending_navigation["day"]
-        st.query_params["section"] = st.session_state.pending_navigation["section"]
+        st.session_state.selected_day = selected_day
+        st.session_state.selected_section = section
         st.switch_page("pages/details.py")
+
