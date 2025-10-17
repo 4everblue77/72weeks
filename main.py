@@ -1,4 +1,5 @@
 import streamlit as st
+import calendar
 from supabase import create_client
 from datetime import datetime, timedelta
 ## from config import SUPABASE_URL, SUPABASE_KEY
@@ -77,6 +78,7 @@ if days:
     cols = st.columns(len(days))
     selected = False # track if a button is pressed
     for i, day in enumerate(days):
+        day_label = day.strftime("%a"
         with cols[i]:
             # Determine button color
             if day in day_status:
@@ -103,7 +105,7 @@ if days:
             """, unsafe_allow_html=True)
 
             # Render button
-            if st.button(str(day), key=button_key):
+            if st.button(day_label, key=button_key):
                 st.session_state.selected_day = day
                 selected = True
                 
