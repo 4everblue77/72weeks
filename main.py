@@ -75,7 +75,7 @@ st.markdown("### Select a Day")
 
 weekday_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 if days:
-    cols = st.columns(len(days))
+    cols = 7 #st.columns(len(days))
     selected = False # track if a button is pressed
     for i, day in enumerate(days):
         day_label = day_label = weekday_names[day-1]  # where day_number is 0–6
