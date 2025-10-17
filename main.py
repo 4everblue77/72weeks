@@ -98,43 +98,43 @@ if days:
     cols = st.columns(7)
     selected = False
    
-for i, day in enumerate(all_days):
-    day_label = weekday_map[day]
-    workout_exists = day in workout_map
-    completed = day_status.get(day, False)
+  for i, day in enumerate(all_days):
+      day_label = weekday_map[day]
+      workout_exists = day in workout_map
+      completed = day_status.get(day, False)
+  
+      with cols[i]:
+          if workout_exists:
+              button_color = "#4CAF50" if completed else "#F44336"
+          else:
+              button_color = "#DDDDDD"  # Grey for placeholder
+  
+          button_key = f"day-{day}"
+          highlight_style = "font-weight: bold;" if day == current_day_index + 1 else ""
+  
+          st.markdown(f"""
+              <style>
+              button[data-testid="baseButton"][aria-label="{button_key}"] {{
+                  background-color: {button_color};
+                  color: black;
+                  border: 1px solid #ccc;
+                  padding: 0.5em;
+                  border-radius: 5px;
+                  width: 100%;
+                  {highlight_style}
+              }}
+              </style>
+          """, unsafe_allow_html=True)
+  
+          if workout_exists and st.button(day_label, key=button_key):
+              st.session_state.selected_day = day
+              selected = True
 
-    with cols[i]:
-        if workout_exists:
-            button_color = "#4CAF50" if completed else "#F44336"
-        else:
-            button_color = "#DDDDDD"  # Grey for placeholder
-
-        button_key = f"day-{day}"
-        highlight_style = "font-weight: bold;" if day == current_day_index + 1 else ""
-
-        st.markdown(f"""
-            <style>
-            button[data-testid="baseButton"][aria-label="{button_key}"] {{
-                background-color: {button_color};
-                color: black;
-                border: 1px solid #ccc;
-                padding: 0.5em;
-                border-radius: 5px;
-                width: 100%;
-                {highlight_style}
-            }}
-            </style>
-        """, unsafe_allow_html=True)
-
-        if workout_exists and st.button(day_label, key=button_key):
-            st.session_state.selected_day = day
-            selected = True
 
 
-
-# Default to today if no button was clicked
-if not selected and "selected_day" not in st.session_state and current_day_index is not None:
-    st.session_state.selected_day = current_day_index + 1
+  # Default to today if no button was clicked
+  if not selected and "selected_day" not in st.session_state and current_day_index is not None:
+      st.session_state.selected_day = current_day_index + 1
 
 
 else:
