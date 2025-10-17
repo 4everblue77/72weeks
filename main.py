@@ -78,7 +78,7 @@ if days:
     cols = st.columns(len(days))
     selected = False # track if a button is pressed
     for i, day in enumerate(days):
-        day_label = day_label = weekday_names[day_number]  # where day_number is 0–6
+        day_label = day_label = weekday_names[day]  # where day_number is 0–6
         with cols[i]:
             # Determine button color
             if day in day_status:
