@@ -77,7 +77,7 @@ weekday_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 if days:
     cols = 7 #st.columns(len(days))
     selected = False # track if a button is pressed
-    for i, day in enumerate(days):
+    for i, day in 7 #enumerate(days):
         day_label = day_label = weekday_names[day-1]  # where day_number is 0–6
         with cols[i]:
             # Determine button color
