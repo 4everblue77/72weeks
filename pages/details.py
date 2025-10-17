@@ -55,6 +55,13 @@ if st.button("Complete"):
         "section": section,
         "completed": True
     }).execute()
+
+    # Update session state
+    if "completed_sections" not in st.session_state:
+        st.session_state.completed_sections = {}
+    if selected_day not in st.session_state.completed_sections:
+        st.session_state.completed_sections[selected_day] = {}
+    st.session_state.completed_sections[selected_day][section] = True
     st.success(f"{section} marked complete")
-    st.query_params()
     st.switch_page("main.py")
+
