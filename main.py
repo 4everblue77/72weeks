@@ -49,13 +49,13 @@ current_day_index = (today - week_start_date).days if week_start_date <= today <
 
 
 # Fetch workouts
-response = supabase.table("workouts").select("*").eq("week", selected_week).execute()
+response = supabase.table("workouts").select("*").eq("week", f"Week {selected_week}").execute()
 workouts = response.data
 
 days = [w['day'] for w in workouts]
 
 # Fetch completion data
-completion_resp = supabase.table("completion").select("*").eq("user_id", user_id).eq("week", selected_week).execute()
+completion_resp = supabase.table("completion").select("*").eq("user_id", user_id).eq("week", f"Week {selected_week}").execute()
 completion_data = completion_resp.data
 
 # Build completion map
@@ -74,10 +74,14 @@ if days:
     cols = st.columns(len(days))
     for i, day in enumerate(days):
         with cols[i]:
+            
+          day_date = week_start_date + timedelta(days=i)
             status = "✅" if day_status.get(day, False) else "❌"
             highlight = "**" if i == current_day_index else ""
-            if st.button(f"{highlight}{day}\n{status}{highlight}"):
+            st.markdown(f"{highlight}{day}\n{day_date.strftime('%a %d %b')}\n{status}{highlight}")
+            if st.button(f"Select {day}"):
                 st.session_state.selected_day = day
+
 else:
     st.warning("No workouts available for this week.")
 
