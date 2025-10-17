@@ -95,8 +95,8 @@ weekday_map = {
 
 
 if days:
-    cols = st.columns(7)
-    selected = False
+  cols = st.columns(7)
+  selected = False
    
   for i, day in enumerate(all_days):
       day_label = weekday_map[day]
