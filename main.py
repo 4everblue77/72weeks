@@ -129,7 +129,7 @@ if "selected_day" in st.session_state:
 
 
 
-        if st.button(section):
+        if st.button(section, key=button_key):
             st.session_state.selected_section = section
             st.switch_page("pages/details.py")
 
