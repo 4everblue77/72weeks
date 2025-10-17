@@ -10,8 +10,8 @@ user_id = "123e4567-e89b-12d3-a456-426614174000"
 week = "Week 1"
 
 params = st.query_params
-selected_day = params.get("day", [""])
-section = params.get("section", [""])
+selected_day = params.get("day", "")
+section = params.get("section", "")
 
 if not selected_day or not section:
     st.error("Missing day or section. Please return to the main page.")
