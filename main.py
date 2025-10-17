@@ -20,8 +20,42 @@ response = supabase.table("workouts").select("*").eq("week", week).execute()
 workouts = response.data
 
 days = [w['day'] for w in workouts]
-selected_day = st.selectbox("Select Day", days)
-workout = next(w for w in workouts if w['day'] == selected_day)
+
+# Fetch completion data
+completion_resp = supabase.table("completion").select("*").eq("user_id", user_id).eq("week", week).execute()
+completion_data = completion_resp.data
+
+# Build completion map
+day_status = {}
+for day in days:
+    sections = ["Warmup", "Strength", "Conditioning", "Cooldown"]
+    completed_sections = [
+        c for c in completion_data if c["day"] == day and c["section"] in sections and c["completed"]
+    ]
+    day_status[day] = len(completed_sections) == len(sections)
+
+# Horizontal day selector
+st.markdown("### Select a Day")
+cols = st.columns(len(days))
+for i, day in enumerate(days):
+    with cols[i]:
+        status = "✅" if day_status[day] else "❌"
+        if st.button(f"{day}\n{status}"):
+            st.session_state.selected_day = day
+
+# Show selected day workout
+if "selected_day" in st.session_state:
+
+
+
+    selected_day = st.session_state.selected_day
+    workout = next(w for w in workouts if w['day'] == selected_day)
+    st.subheader(f"Workout for {selected_day}")
+    st.text(f"Warmup: {workout['warmup_description']}")
+    st.text(f"Strength: {workout['strength_description']}")
+    st.text(f"Conditioning: {workout['conditioning_description']}")
+    st.text(f"Cooldown: {workout['cooldown_description']}")
+
 
 st.subheader(f"Day {selected_day}")
 sections = ["Warmup", "Strength", "Conditioning", "Cooldown"]
