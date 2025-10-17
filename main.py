@@ -86,30 +86,26 @@ else:
 # Show selected day workout
 if "selected_day" in st.session_state:
 
-
-
     selected_day = st.session_state.selected_day
 
+    st.subheader(f"Day {selected_day}")
+    sections = ["Warmup", "Strength", "Conditioning", "Cooldown"]
+
+    st.markdown("### Sections")
+
+    if "pending_navigation" not in st.session_state:
+        st.session_state.pending_navigation = None
+
+    for section in sections:
+        completed_resp = supabase.table("completion").select("completed").eq("user_id", user_id).eq("week", selected_week).eq("day", selected_day).eq("section", section).execute()
+        completed = completed_resp.data[0]['completed'] if completed_resp.data else False
+        status = "✅" if completed else "❌"
+
+        if st.button(f"{section} {status}"):
+            st.session_state.selected_section = section
+            st.switch_page("pages/details.py")
 
 
-st.subheader(f"Day {selected_day}")
-sections = ["Warmup", "Strength", "Conditioning", "Cooldown"]
-
-st.markdown("### Sections")
-
-# Store selection in session state
-if "pending_navigation" not in st.session_state:
-    st.session_state.pending_navigation = None
-
-for section in sections:
-    completed_resp = supabase.table("completion").select("completed").eq("user_id", user_id).eq("week", selected_week).eq("day", selected_day).eq("section", section).execute()
-    completed = completed_resp.data[0]['completed'] if completed_resp.data else False
-    status = "✅" if completed else "❌"
 
 
-
-    if st.button(f"{section} {status}"):
-        st.session_state.selected_day = selected_day
-        st.session_state.selected_section = section
-        st.switch_page("pages/details.py")
 
