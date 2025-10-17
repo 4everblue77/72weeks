@@ -32,4 +32,4 @@ for section in sections:
     if st.button(f"{section} {status}"):
         st.experimental_set_query_params(day=selected_day, section=section)
         st.switch_page("details.py")
-``
+
