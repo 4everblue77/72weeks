@@ -103,9 +103,24 @@ if "selected_day" in st.session_state:
     for section in sections:
         completed_resp = supabase.table("completion").select("completed").eq("user_id", user_id).eq("week", selected_week).eq("day", selected_day).eq("section", section).execute()
         completed = completed_resp.data[0]['completed'] if completed_resp.data else False
-        status = "✅" if completed else "❌"
+        
+        # Set button color
+        button_color = "#4CAF50" if completed else "#F44336"  # Green or Red
+        button_style = f"""
+            <style>
+            div.stButton > button:first-child {{
+                background-color: {button_color};
+                color: white;
+                border: none;
+                padding: 0.5em 1em;
+                border-radius: 5px;
+            }}
+            </style>
+        """
+        st.markdown(button_style, unsafe_allow_html=True)
 
-        if st.button(f"{section} {status}"):
+
+        if st.button(section):
             st.session_state.selected_section = section
             st.switch_page("pages/details.py")
 
