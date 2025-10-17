@@ -34,5 +34,5 @@ for section in sections:
         st.query_params["day"] = selected_day
         st.query_params["section"] = section
 
-        st.switch_page("details.py")
+        st.switch_page("details")
 
