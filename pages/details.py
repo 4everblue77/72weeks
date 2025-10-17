@@ -4,14 +4,6 @@ from supabase import create_client
 
 
 
-params = st.query_params
-st.write("DEBUG: Received query params →", params)
-
-selected_day = params.get("day")
-section = params.get("section")
-
-st.write(f"DEBUG: Parsed Day: {selected_day}")
-st.write(f"DEBUG: Parsed Section: {section}")
 
 
 SUPABASE_URL = "https://vsujjsdbwrcjgyqymjcq.supabase.co"
@@ -21,9 +13,13 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 user_id = "123e4567-e89b-12d3-a456-426614174000"
 week = "Week 1"
 
-params = st.query_params
-selected_day = params.get("day", "")
-section = params.get("section", "")
+
+# Debug: show session state
+st.write("DEBUG: session_state →", st.session_state)
+
+# Get values from session_state
+selected_day = st.session_state.get("selected_day", "")
+section = st.session_state.get("selected_section", "")
 
 if not selected_day or not section:
     st.error("Missing day or section. Please return to the main page.")
