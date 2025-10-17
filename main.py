@@ -108,23 +108,23 @@ if "selected_day" in st.session_state:
         button_color = "#4CAF50" if completed else "#F44336"  # Green or Red
   
         button_id = f"section-{section.replace(' ', '-')}"
-            st.markdown(f"""
-                <style>
-                #{button_id} {{
-                    background-color: {button_color};
-                    color: white;
-                    border: none;
-                    padding: 0.5em 1em;
-                    border-radius: 5px;
-                    width: 100%;
-                }}
-                </style>
-                <div id="{button_id}">
-                    <form action="" method="post">
-                        <button name="section_button" type="submit">{section}</button>
-                    </form>
-                </div>
-            """, unsafe_allow_html=True)
+        st.markdown(f"""
+            <style>
+            #{button_id} {{
+                background-color: {button_color};
+                color: white;
+                border: none;
+                padding: 0.5em 1em;
+                border-radius: 5px;
+                width: 100%;
+            }}
+            </style>
+            <div id="{button_id}">
+                <form action="" method="post">
+                    <button name="section_button" type="submit">{section}</button>
+                </form>
+            </div>
+        """, unsafe_allow_html=True)
 
 
 
