@@ -95,7 +95,7 @@ weekday_map = {
 
 
 if days:
-  cols = st.columns(7)
+  cols = st.columns(len(all_days))
   selected = False
    
   for i, day in enumerate(all_days):
@@ -110,7 +110,7 @@ if days:
               button_color = "#DDDDDD"  # Grey for placeholder
   
           button_key = f"day-{day}"
-          highlight_style = "font-weight: bold;" if day == current_day_index + 1 else ""
+          highlight_style = "font-weight: bold;" if day == current_day_index - 1 else ""
   
           st.markdown(f"""
               <style>
