@@ -104,27 +104,28 @@ if "selected_day" in st.session_state:
         completed_resp = supabase.table("completion").select("completed").eq("user_id", user_id).eq("week", selected_week).eq("day", selected_day).eq("section", section).execute()
         completed = completed_resp.data[0]['completed'] if completed_resp.data else False
         
-        # Set button color
+
+        # Set color
         button_color = "#4CAF50" if completed else "#F44336"  # Green or Red
-  
-        button_id = f"section-{section.replace(' ', '-')}"
+    
+        # Unique key for each button
+        if st.button(section, key=f"{section}-btn"):
+            st.session_state.selected_section = section
+            st.switch_page("pages/details")
+    
+        # Inject scoped style for that button
         st.markdown(f"""
             <style>
-            #{button_id} {{
+            button[data-testid="baseButton"][aria-label="{section}-btn"] {{
                 background-color: {button_color};
                 color: white;
                 border: none;
                 padding: 0.5em 1em;
                 border-radius: 5px;
-                width: 100%;
             }}
             </style>
-            <div id="{button_id}">
-                <form action="" method="post">
-                    <button name="section_button" type="submit">{section}</button>
-                </form>
-            </div>
         """, unsafe_allow_html=True)
+
 
 
 
