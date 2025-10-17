@@ -52,5 +52,5 @@ for section in sections:
 
         ### st.rerun()  # Refresh to apply query params
 
-        st.switch_page("pages/details.py")
+        # st.switch_page("pages/details.py")
 
