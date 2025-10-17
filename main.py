@@ -52,5 +52,9 @@ for section in sections:
 
         st.rerun()  # Refresh to apply query params
 
-        st.switch_page("pages/details.py")
+        st.warning("Click below to continue to details page")
+        if st.button("Go to Details"):
+            st.switch_page("pages/details")
+
+        
 
