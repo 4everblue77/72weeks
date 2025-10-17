@@ -69,14 +69,18 @@ for day in days:
 
 # Horizontal day selector
 st.markdown("### Select a Day")
-cols = st.columns(len(days))
-for i, day in enumerate(days):
-    with cols[i]:
-        status = "✅" if day_status[day] else "❌"
 
-        highlight = "**" if i == current_day_index else ""
-        if st.button(f"{highlight}{day}\n{status}{highlight}"):
-            st.session_state.selected_day = day
+if days:
+    cols = st.columns(len(days))
+    for i, day in enumerate(days):
+        with cols[i]:
+            status = "✅" if day_status.get(day, False) else "❌"
+            highlight = "**" if i == current_day_index else ""
+            if st.button(f"{highlight}{day}\n{status}{highlight}"):
+                st.session_state.selected_day = day
+else:
+    st.warning("No workouts available for this week.")
+
 
 
 # Show selected day workout
