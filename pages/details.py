@@ -7,8 +7,8 @@ from supabase import create_client
 params = st.query_params
 st.write("DEBUG: Received query params →", params)
 
-selected_day = params.get("day", "")
-section = params.get("section", "")
+selected_day = params["day"]
+section = params["section"]
 
 st.write(f"DEBUG: Parsed Day: {selected_day}")
 st.write(f"DEBUG: Parsed Section: {section}")
