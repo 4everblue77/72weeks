@@ -61,23 +61,22 @@ completion_data = completion_resp.data
 
 # Build completion map
 
-# Normalize day names to short format
-def normalize_day(day_str):
-    day_map = {
-        "Monday": "Mon", "Tuesday": "Tue", "Wednesday": "Wed",
-        "Thursday": "Thu", "Friday": "Fri", "Saturday": "Sat", "Sunday": "Sun"
-    }
-    return day_map.get(day_str, day_str)
+
+weekday_map = {
+    0: "Mon", 1: "Tue", 2: "Wed", 3: "Thu", 4: "Fri", 5: "Sat", 6: "Sun"
+}
+
+
 
 day_status = {}
 for day in days:
-    normalized_day = normalize_day(day)
     sections = ["Warmup", "Strength", "Conditioning", "Cooldown"]
     completed_sections = [
         c for c in completion_data
-        if normalize_day(c["day"]) == normalized_day and c["section"] in sections and c["completed"]
+        if c["day"] == day and c["section"] in sections and c["completed"]
     ]
-    day_status[normalized_day] = len(completed_sections) == len(sections)
+    day_status[day] = len(completed_sections) == len(sections)
+
 
 
 # Horizontal day selector
@@ -85,12 +84,12 @@ for day in days:
 
 
 
-weekday_names = ["M", "T", "W", "T", "F", "S", "S"]
+
 if days:
     cols = st.columns(7)
     selected = False # track if a button is pressed
     for i, day in enumerate(days):
-        day_label = weekday_names[i % 7]  # where day_number is 0–6
+        day_label = weekday_map.get(day, str(day))
         with cols[i]:
             # Determine button color
             if day in day_status:
