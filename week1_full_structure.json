@@ -1,0 +1,136 @@
+{
+    "Week 1": [
+        {
+            "day": 1,
+            "warmup": {
+                "description": "General warm-up: 5\u201310 min cardio, dynamic stretches",
+                "estimated_time_minutes": 10
+            },
+            "strength": {
+                "description": "Front Squat 6\u00d73 EMOM @ 70% 1RM",
+                "rest_seconds": 0,
+                "estimated_time_minutes": 15
+            },
+            "conditioning": {
+                "description": "5 Rounds: 12 Push Jerks (52/34 kg), 15 Pull-Ups",
+                "type": "For Time",
+                "estimated_time_minutes": 15
+            },
+            "cooldown": {
+                "description": "Cooldown: light cardio, static stretches, foam rolling",
+                "estimated_time_minutes": 10
+            },
+            "expected_total_time_minutes": 50
+        },
+        {
+            "day": 2,
+            "warmup": {
+                "description": "General warm-up: 5\u201310 min cardio, dynamic stretches",
+                "estimated_time_minutes": 10
+            },
+            "strength": {
+                "description": "Deadlift 6\u00d73 EMOM @ 70% 1RM",
+                "rest_seconds": 0,
+                "estimated_time_minutes": 15
+            },
+            "conditioning": {
+                "description": "12-min AMRAP: 8 Power Snatches (43/29.5 kg), 10 Burpees",
+                "type": "AMRAP",
+                "estimated_time_minutes": 12
+            },
+            "cooldown": {
+                "description": "Cooldown: light cardio, static stretches, foam rolling",
+                "estimated_time_minutes": 10
+            },
+            "expected_total_time_minutes": 47
+        },
+        {
+            "day": 3,
+            "warmup": {
+                "description": "General warm-up: 5\u201310 min cardio, dynamic stretches",
+                "estimated_time_minutes": 10
+            },
+            "strength": {
+                "description": "Bench Press 5\u00d710 @ 65% 1RM, Skull Crusher 5\u00d710",
+                "rest_seconds": 90,
+                "estimated_time_minutes": 15
+            },
+            "conditioning": {
+                "description": "4 Rounds: 30 DU, 15 Deadlifts (84/56.7 kg), 15 Box Jumps",
+                "type": "For Time",
+                "estimated_time_minutes": 15
+            },
+            "cooldown": {
+                "description": "Cooldown: light cardio, static stretches, foam rolling",
+                "estimated_time_minutes": 10
+            },
+            "expected_total_time_minutes": 50
+        },
+        {
+            "day": 4,
+            "warmup": {
+                "description": "General warm-up: 5\u201310 min cardio, dynamic stretches",
+                "estimated_time_minutes": 10
+            },
+            "strength": {
+                "description": "Clean 6\u00d73 @ 70% 1RM",
+                "rest_seconds": 0,
+                "estimated_time_minutes": 15
+            },
+            "conditioning": {
+                "description": "50 Goblet Squats (24/16 kg), 5 Burpees per break",
+                "type": "For Time",
+                "estimated_time_minutes": 15
+            },
+            "cooldown": {
+                "description": "Cooldown: light cardio, static stretches, foam rolling",
+                "estimated_time_minutes": 10
+            },
+            "expected_total_time_minutes": 50
+        },
+        {
+            "day": 5,
+            "warmup": {
+                "description": "General warm-up: 5\u201310 min cardio, dynamic stretches",
+                "estimated_time_minutes": 10
+            },
+            "strength": {
+                "description": "Weighted Pull-Up 6\u00d73 AHAP",
+                "rest_seconds": 90,
+                "estimated_time_minutes": 15
+            },
+            "conditioning": {
+                "description": "5 Rounds: 8 Bench Press (84/56.7 kg), 20 KB Swings (32/24 kg)",
+                "type": "For Time",
+                "estimated_time_minutes": 15
+            },
+            "cooldown": {
+                "description": "Cooldown: light cardio, static stretches, foam rolling",
+                "estimated_time_minutes": 10
+            },
+            "expected_total_time_minutes": 50
+        },
+        {
+            "day": 6,
+            "warmup": {
+                "description": "General warm-up: 5\u201310 min cardio, dynamic stretches",
+                "estimated_time_minutes": 10
+            },
+            "strength": {
+                "description": "Weighted Dips 5\u00d78 AHAP, Upright Row 5\u00d78",
+                "rest_seconds": 90,
+                "estimated_time_minutes": 15
+            },
+            "conditioning": {
+                "description": "Optional Recovery or Light Conditioning",
+                "type": "Recovery",
+                "estimated_time_minutes": 10
+            },
+            "cooldown": {
+                "description": "Cooldown: light cardio, static stretches, foam rolling",
+                "estimated_time_minutes": 10
+            },
+            "expected_total_time_minutes": 45
+        }
+    ]
+}
