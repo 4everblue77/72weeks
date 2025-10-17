@@ -62,11 +62,11 @@ completion_data = completion_resp.data
 # Build completion map
 
 
-
+all_days = list(range(1, 8))  # Days 1 to 7 (Mon to Sun)
+workout_map = {w['day']: w for w in workouts}
 weekday_map = {
     1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
 }
-
 
 
 
@@ -87,39 +87,55 @@ for day in days:
 ##st.markdown("### Select a Day")
 
 
+all_days = list(range(1, 8))  # Days 1 to 7 (Mon to Sun)
+workout_map = {w['day']: w for w in workouts}
+weekday_map = {
+    1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
+}
 
 
 if days:
     cols = st.columns(7)
     selected = False
-    for i, day in enumerate(days):
-        day_label = weekday_map.get(day, str(day))  # Convert int to weekday name
+   
+for i, day in enumerate(all_days):
+    day_label = weekday_map[day]
+    workout_exists = day in workout_map
+    completed = day_status.get(day, False)
 
-        with cols[i]:
-            button_color = "#4CAF50" if day_status.get(day) else "#F44336"
-            button_key = f"day-{day}"
-            highlight_style = "font-weight: bold;" if i == current_day_index else ""
+    with cols[i]:
+        if workout_exists:
+            button_color = "#4CAF50" if completed else "#F44336"
+        else:
+            button_color = "#DDDDDD"  # Grey for placeholder
 
-            st.markdown(f"""
-                <style>
-                button[data-testid="baseButton"][aria-label="{button_key}"] {{
-                    background-color: {button_color};
-                    color: black;
-                    border: 1px solid #ccc;
-                    padding: 0.5em;
-                    border-radius: 5px;
-                    width: 100%;
-                    {highlight_style}
-                }}
-                </style>
-            """, unsafe_allow_html=True)
+        button_key = f"day-{day}"
+        highlight_style = "font-weight: bold;" if day == current_day_index + 1 else ""
 
-            if st.button(day_label, key=button_key):
-                st.session_state.selected_day = day
-                selected = True
+        st.markdown(f"""
+            <style>
+            button[data-testid="baseButton"][aria-label="{button_key}"] {{
+                background-color: {button_color};
+                color: black;
+                border: 1px solid #ccc;
+                padding: 0.5em;
+                border-radius: 5px;
+                width: 100%;
+                {highlight_style}
+            }}
+            </style>
+        """, unsafe_allow_html=True)
 
-    if not selected and "selected_day" not in st.session_state:
-        st.session_state.selected_day = days[current_day_index]
+        if workout_exists and st.button(day_label, key=button_key):
+            st.session_state.selected_day = day
+            selected = True
+
+
+
+# Default to today if no button was clicked
+if not selected and "selected_day" not in st.session_state and current_day_index is not None:
+    st.session_state.selected_day = current_day_index + 1
+
 
 else:
     st.warning("No workouts available for this week.")
