@@ -111,7 +111,7 @@ if "selected_day" in st.session_state:
         # Unique key for each button
         if st.button(section, key=f"{section}-btn"):
             st.session_state.selected_section = section
-            st.switch_page("pages/details")
+            st.switch_page("pages/details.py")
     
         # Inject scoped style for that button
         st.markdown(f"""
@@ -127,11 +127,6 @@ if "selected_day" in st.session_state:
         """, unsafe_allow_html=True)
 
 
-
-
-        if st.button(section, key=button_key):
-            st.session_state.selected_section = section
-            st.switch_page("pages/details.py")
 
 
 
