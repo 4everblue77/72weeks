@@ -13,7 +13,7 @@ st.set_page_config(page_title="OpenPrep Tracker", layout="wide", initial_sidebar
                    
 
 # Fixed start date
-START_DATE = datetime(2025, 10, 10)
+START_DATE = datetime(2025, 10, 13)
 today = datetime.today()
 
 # Calculate current week
