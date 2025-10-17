@@ -70,35 +70,45 @@ for day in days:
 # Horizontal day selector
 st.markdown("### Select a Day")
 
+
+
+
 if days:
     cols = st.columns(len(days))
     for i, day in enumerate(days):
         with cols[i]:
+            # Determine button color
+            if day in day_status:
+                button_color = "#4CAF50" if day_status[day] else "#F44336"  # Green or Red
+            else:
+                button_color = "#FFFFFF"  # White for no workouts
 
-          if day in day_status:
-              button_color = "#4CAF50" if day_status[day] else "#F44336"
-          else:
-              button_color = "#FFFFFF"
-  
-          if st.button(day, key=f"{day}-btn"):
-              st.session_state.selected_day = day
-  
-          st.markdown(f"""
-              <style>
-              button[data-testid="baseButton"][aria-label="{day}-btn"] {{
-                  background-color: {button_color};
-                  color: black;
-                  border: 1px solid #ccc;
-                  padding: 0.5em;
-                  border-radius: 5px;
-                  width: 100%;
-              }}
-              </style>
-          """, unsafe_allow_html=True)
+            button_key = f"day-{day.replace(' ', '-')}"
+            highlight_style = "font-weight: bold;" if i == current_day_index else ""
 
+            # Inject scoped style
+            st.markdown(f"""
+                <style>
+                button[data-testid="baseButton"][aria-label="{button_key}"] {{
+                    background-color: {button_color};
+                    color: black;
+                    border: 1px solid #ccc;
+                    padding: 0.5em;
+                    border-radius: 5px;
+                    width: 100%;
+                    {highlight_style}
+                }}
+                </style>
+            """, unsafe_allow_html=True)
 
+            # Render button
+            if st.button(day, key=button_key):
+                st.session_state.selected_day = day
 else:
     st.warning("No workouts available for this week.")
+
+
+
 
 
 
