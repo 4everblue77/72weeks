@@ -11,6 +11,10 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 user_id = "123e4567-e89b-12d3-a456-426614174000"
+
+st.set_page_config(page_title="OpenPrep Tracker", layout="wide", initial_sidebar_state="collapsed"
+
+                   
 week = "Week 1"
 
 
