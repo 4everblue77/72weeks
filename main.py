@@ -102,7 +102,7 @@ if days:
             """, unsafe_allow_html=True)
 
             # Render button
-            if st.button(day, key=button_key):
+            if st.button(str(day), key=button_key):
                 st.session_state.selected_day = day
 else:
     st.warning("No workouts available for this week.")
