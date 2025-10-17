@@ -1,7 +1,7 @@
 
 import streamlit as st
 from supabase import create_client
-from app.config import SUPABASE_URL, SUPABASE_KEY
+from config import SUPABASE_URL, SUPABASE_KEY
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 user_id = "demo-user"
