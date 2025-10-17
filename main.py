@@ -75,6 +75,7 @@ st.markdown("### Select a Day")
 
 if days:
     cols = st.columns(len(days))
+    selected = False # track if a button is pressed
     for i, day in enumerate(days):
         with cols[i]:
             # Determine button color
@@ -104,6 +105,12 @@ if days:
             # Render button
             if st.button(str(day), key=button_key):
                 st.session_state.selected_day = day
+                selected = True
+                
+    # Default to today if no button was clicked
+    if not selected and "selected_day" not in st.session_state:
+        st.session_state.selected_day = days[current_day_index]
+
 else:
     st.warning("No workouts available for this week.")
 
