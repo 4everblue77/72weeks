@@ -20,8 +20,23 @@ today = datetime.today()
 days_since_start = (today - START_DATE).days
 current_week_number = max(1, (days_since_start // 7) + 1)
 
-# Week navigation
-selected_week = st.number_input("Select Week", min_value=1, value=current_week_number, step=1)
+
+# Initialize session state
+if "selected_week" not in st.session_state:
+    st.session_state.selected_week = default_week
+
+
+# Week navigation arrows
+col1, col2, col3 = st.columns([1, 2, 1])
+with col1:
+    if st.button("⬅️ Previous Week"):
+        st.session_state.selected_week = max(1, st.session_state.selected_week - 1)
+with col3:
+    if st.button("➡️ Next Week"):
+        st.session_state.selected_week += 1
+
+selected_week = st.session_state.selected_week
+
 
 # Calculate week range
 week_start_date = START_DATE + timedelta(weeks=selected_week - 1)
@@ -34,13 +49,13 @@ current_day_index = (today - week_start_date).days if week_start_date <= today <
 
 
 # Fetch workouts
-response = supabase.table("workouts").select("*").eq("week", week).execute()
+response = supabase.table("workouts").select("*").eq("week", selected_week).execute()
 workouts = response.data
 
 days = [w['day'] for w in workouts]
 
 # Fetch completion data
-completion_resp = supabase.table("completion").select("*").eq("user_id", user_id).eq("week", week).execute()
+completion_resp = supabase.table("completion").select("*").eq("user_id", user_id).eq("week", selected_week).execute()
 completion_data = completion_resp.data
 
 # Build completion map
@@ -83,7 +98,7 @@ if "pending_navigation" not in st.session_state:
     st.session_state.pending_navigation = None
 
 for section in sections:
-    completed_resp = supabase.table("completion").select("completed").eq("user_id", user_id).eq("week", week).eq("day", selected_day).eq("section", section).execute()
+    completed_resp = supabase.table("completion").select("completed").eq("user_id", user_id).eq("week", selected_week).eq("day", selected_day).eq("section", section).execute()
     completed = completed_resp.data[0]['completed'] if completed_resp.data else False
     status = "✅" if completed else "❌"
 
