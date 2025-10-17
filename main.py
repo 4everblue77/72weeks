@@ -41,6 +41,7 @@ for section in sections:
         
         st.query_params["day"] = selected_day
         st.query_params["section"] = section
+              st.write(f"DEBUG: Set query params → day: {selected_day}, section: {section}")
         st.rerun()  # Refresh to apply query params
 
         st.switch_page("pages/details.py")
