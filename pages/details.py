@@ -42,4 +42,4 @@ if st.button("Complete"):
     }).execute()
     st.success(f"{section} marked complete")
     st.query_params()
-    st.switch_page("main")
+    st.switch_page("main.py")
