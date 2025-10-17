@@ -49,12 +49,7 @@ if "selected_day" in st.session_state:
 
 
     selected_day = st.session_state.selected_day
-    workout = next(w for w in workouts if w['day'] == selected_day)
-    st.subheader(f"Workout for {selected_day}")
-    st.text(f"Warmup: {workout['warmup_description']}")
-    st.text(f"Strength: {workout['strength_description']}")
-    st.text(f"Conditioning: {workout['conditioning_description']}")
-    st.text(f"Cooldown: {workout['cooldown_description']}")
+
 
 
 st.subheader(f"Day {selected_day}")
