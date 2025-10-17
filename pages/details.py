@@ -15,7 +15,7 @@ week = "Week 1"
 
 
 # Debug: show session state
-st.write("DEBUG: session_state →", st.session_state)
+##st.write("DEBUG: session_state →", st.session_state)
 
 # Get values from session_state
 selected_day = st.session_state.get("selected_day", "")
