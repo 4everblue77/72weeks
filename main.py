@@ -83,7 +83,7 @@ if days:
             else:
                 button_color = "#FFFFFF"  # White for no workouts
 
-            button_key = f"day-{day.replace(' ', '-')}"
+            button_key = f"day-{str(day).replace(' ', '-')}"
             highlight_style = "font-weight: bold;" if i == current_day_index else ""
 
             # Inject scoped style
