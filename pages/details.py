@@ -1,7 +1,7 @@
 
 import streamlit as st
 from supabase import create_client
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Supabase credentials
 SUPABASE_URL = "https://vsujjsdbwrcjgyqymjcq.supabase.co"
@@ -27,7 +27,7 @@ workout = response.data[0]
 
 
 # Calculate date and day name
-start_date = datetime(2025, 10, 13) + timedelta(days=(selected_day - 1))
+start_date = datetime(2025, 10, 13) + (selected_day - 1) * datetime.timedelta(days=1)
 day_name = start_date.strftime("%A")
 date_str = start_date.strftime("%b %d, %Y")
 
