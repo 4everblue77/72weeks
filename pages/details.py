@@ -50,15 +50,39 @@ st.subheader(f"{selected_section} Description")
 st.write(section.get("description", "No details available"))
 
 # Display exercises in table
+
 if exercises:
-    df = pd.DataFrame(exercises)
-    df_display = df[["name", "sets", "reps", "weight"]]
-    df_display.columns = ["Exercise", "Sets", "Reps", "Weight (kg)"]
-    if selected_section == "Strength":
-        df_display["Rest (sec)"] = section.get("rest_seconds", "")
+    expanded_rows = []
+    for ex in exercises:
+        sets = int(ex.get("sets", 1)) if ex.get("sets", "").isdigit() else 1
+        reps = ex.get("reps", "")
+        weight = ex.get("weight", "")
+        name = ex.get("name", "")
+        
+        if selected_section == "Strength":
+            # Create one row per set
+            for s in range(1, sets + 1):
+                expanded_rows.append({
+                    "Set": s,
+                    "Exercise": name,
+                    "Reps": reps,
+                    "Weight (kg)": weight,
+                    "Rest (sec)": section.get("rest_seconds", "")
+                })
+        else:
+            # For non-strength, keep one row per exercise
+            expanded_rows.append({
+                "Exercise": name,
+                "Sets": ex.get("sets", ""),
+                "Reps": reps,
+                "Weight (kg)": weight
+            })
+
+    df_display = pd.DataFrame(expanded_rows)
     st.table(df_display)
 else:
     st.warning("No exercises found.")
+
 
 # Action buttons
 col1, col2 = st.columns(2)
