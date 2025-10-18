@@ -59,25 +59,20 @@ days = [w['day'] for w in workouts]
 completion_resp = supabase.table("completion").select("*").eq("user_id", user_id).eq("week", f"Week {selected_week}").execute()
 completion_data = completion_resp.data
 
-# Build completion map
 
-
-
+# Build maps
 workout_map = {w['day']: w for w in workouts}
+completion_lookup = {
+    (c["day"], c["section"]): c["completed"]
+    for c in completion_data
+}
 
-
-
-
-
-day_status = {}
-for day in days:
-    sections = ["Warmup", "Strength", "Conditioning", "Cooldown"]
-    completed_sections = [
-        c for c in completion_data
-        if c["day"] == day and c["section"] in sections and c["completed"]
-    ]
-    day_status[day] = len(completed_sections) == len(sections)
-
+# Day status
+sections = ["Warmup", "Strength", "Conditioning", "Cooldown"]
+day_status = {
+    day: all(completion_lookup.get((day, section), False) for section in sections)
+    for day in workout_map
+}
 
 
 
