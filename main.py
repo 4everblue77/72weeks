@@ -147,7 +147,7 @@ if workouts:
                 <style>
                 button[data-testid="baseButton"][aria-label="{button_key}"] {{
                     background-color: transparent;
-                    border: none;
+                    border: 0;
                     font-size: 2rem;
                     line-height: 1;
                     padding: 0.2em;
