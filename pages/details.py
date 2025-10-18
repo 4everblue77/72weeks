@@ -98,6 +98,8 @@ if exercises:
             cols[3].write(f'{row["Weight"]} kg')
 
             button_key = f"set_complete_{i}"
+            timer_key = f"timer_{i}"
+            
             if cols[4].button("✅ Set Complete", key=button_key):
                 st.session_state.rest_timer[timer_key] = time.time() + int(row.get("Rest", 60))
 
