@@ -85,30 +85,39 @@ if exercises:
     # Generate HTML table with custom CSS
     html_table = df_display.to_html(index=False)
     
+
+    # Responsive and font-inherited styling
     centered_html = f"""
-    <html>
-    <head>
-    <style>
-    table {{
-        width: 100%;
-        border-collapse: collapse;
-        font-family: inherit;
-    }}
-    th, td {{
-        text-align: center;
-        padding: 8px;
-        border: 1px solid #ddd;
-    }}
-    th {{
-        background-color: #f2f2f2;
-    }}
-    </style>
-    </head>
-    <body>
-    {html_table}
-    </body>
-    </html>
+    <div style="overflow-x:auto;">
+        <style>
+            table {{
+                width: 100%;
+                border-collapse: collapse;
+                font-family: inherit; /* Match Streamlit font */
+            }}
+            th, td {{
+                text-align: center;
+                padding: 8px;
+                border: 1px solid #ddd;
+            }}
+            th {{
+                background-color: #f2f2f2;
+            }}
+            @media screen and (max-width: 600px) {{
+                table {{
+                    font-size: 14px;
+                }}
+                th, td {{
+                    padding: 6px;
+                }}
+            }}
+        </style>
+        {html_table}
+    </div>
     """
+
+
+
     
     # Render using st.components.html
     st.components.v1.html(centered_html, height=500, scrolling=True)
