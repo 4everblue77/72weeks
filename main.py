@@ -191,7 +191,7 @@ if "selected_day" in st.session_state:
 
             # Wrap each button in a div with class 'section-button'
             st.markdown('<div class="section-button">', unsafe_allow_html=True)
-            if st.button(button_label, key=f"{section}_btn"):
+            if st.button(button_label, key=f"{section}_btn", use_container_width = True):
                 st.session_state.selected_section = section
                 st.success(f"You selected: {section}")
             st.markdown('</div>', unsafe_allow_html=True)
