@@ -51,6 +51,7 @@ st.write(section.get("description", "No details available"))
 
 # Display exercises in table
 
+# Display exercises interactively
 if exercises:
     expanded_rows = []
     for ex in exercises:
@@ -58,70 +59,47 @@ if exercises:
         reps = ex.get("reps", "")
         weight = ex.get("weight", "")
         name = ex.get("name", "")
-        
+        rest = section.get("rest_seconds", 60)
+
         if selected_section == "Strength":
             for s in range(1, sets + 1):
                 expanded_rows.append({
                     "Set": s,
                     "Exercise": name,
                     "Reps": reps,
-                    "Weight (kg)": weight,
-                    "Rest (sec)": section.get("rest_seconds", "")
+                    "Weight": weight,
+                    "Rest": rest
                 })
         else:
             expanded_rows.append({
                 "Exercise": name,
                 "Sets": ex.get("sets", ""),
                 "Reps": reps,
-                "Weight (kg)": weight
+                "Weight": weight
             })
 
+    # ✅ Render interactive rows for Strength section
+    if selected_section == "Strength":
+        st.subheader("Strength Sets")
+        for i, row in enumerate(expanded_rows):
+            cols = st.columns([3, 1, 1, 1, 2])
+            cols[0].write(row["Exercise"])
+            cols[1].write(f'Set {row["Set"]}')
+            cols[2].write(f'{row["Reps"]} reps')
+            cols[3].write(f'{row["Weight"]} kg')
 
-
-    # ✅ Render as HTML table without index
-    df_display = pd.DataFrame(expanded_rows)
-    
-
-    # Generate HTML table with custom CSS
-    html_table = df_display.to_html(index=False)
-    
-
-    # Responsive and font-inherited styling
-    centered_html = f"""
-    <div style="overflow-x:auto;">
-        <style>
-            table {{
-                width: 100%;
-                border-collapse: collapse;
-                font-family: "Source Sans Pro", sans-serif; /* Match Streamlit font */
-            }}
-            th, td {{
-                text-align: center;
-                padding: 8px;
-                border: 1px solid #ddd;
-            }}
-            th {{
-                background-color: #f2f2f2;
-            }}
-            @media screen and (max-width: 600px) {{
-                table {{
-                    font-size: 14px;
-                }}
-                th, td {{
-                    padding: 6px;
-                }}
-            }}
-        </style>
-        {html_table}
-    </div>
-    """
-
-
-
-    
-    # Render using st.components.html
-    st.components.v1.html(centered_html, height=500, scrolling=True)
-
+            button_key = f"set_complete_{i}"
+            if cols[4].button("✅ Set Complete", key=button_key):
+                rest_placeholder = st.empty()
+                rest_seconds = int(row.get("Rest", 60))
+                for sec in range(rest_seconds, 0, -1):
+                    rest_placeholder.markdown(f"⏳ Rest: **{sec} seconds** remaining")
+                    time.sleep(1)
+                rest_placeholder.markdown("✅ Rest complete! Ready for next set.")
+    else:
+        # For non-strength sections, show static table
+        df_display = pd.DataFrame(expanded_rows)
+        st.dataframe(df_display, use_container_width=True)
 
 else:
     st.warning("No exercises found.")
