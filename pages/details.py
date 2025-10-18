@@ -2,32 +2,23 @@ import streamlit as st
 import pandas as pd
 import time
 from supabase import create_client
-from streamlit_autorefresh import st_autorefresh
-
-# --- Session State Initialization ---
-if "rest_timer" not in st.session_state:
-    st.session_state.rest_timer = {}
-
-# Auto-refresh every second if any timer is active
-active_timers = any(time.time() < end for end in st.session_state.rest_timer.values())
-if active_timers:
-    st_autorefresh(interval=1000, limit=None, key="rest_refresh")
+from streamlit.components.v1 import html
 
 # --- Supabase Setup ---
 SUPABASE_URL = "https://vsujjsdbwrcjgyqymjcq.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzdWpqc2Rid3Jjamd5cXltamNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2NTY4OTgsImV4cCI6MjA3NjIzMjg5OH0.bIUQ4am5pO2MoEJqmyhrwFxTWh1P6C_hdYoM_ttoJZY"
+SUPABASE_KEY = "your_supabase_key_here"
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# --- Get Session State Values ---
-selected_day = st.session_state.get("selected_day", "")
-selected_week = st.session_state.get("selected_week", "")
-selected_section = st.session_state.get("selected_section", "")
-
-if not selected_day or not selected_week or not selected_section:
+# --- Session State ---
+if "selected_day" not in st.session_state or "selected_week" not in st.session_state or "selected_section" not in st.session_state:
     st.error("Missing day or section. Please return to the main page.")
     st.stop()
 
-# --- Fetch Workout Data ---
+selected_day = st.session_state["selected_day"]
+selected_week = st.session_state["selected_week"]
+selected_section = st.session_state["selected_section"]
+
+# --- Fetch Workout ---
 workout_resp = supabase.table("workouts").select("*").eq("week", f"Week {selected_week}").eq("day", selected_day).execute()
 if not workout_resp.data:
     st.error("Workout not found.")
@@ -36,7 +27,7 @@ if not workout_resp.data:
 workout = workout_resp.data[0]
 workout_id = workout["id"]
 
-# --- Fetch Section Data ---
+# --- Fetch Section ---
 section_resp = supabase.table("sections").select("*").eq("workout_id", workout_id).eq("section_type", selected_section).execute()
 if not section_resp.data:
     st.warning("No section found.")
@@ -58,6 +49,27 @@ st.divider()
 # --- Section Description ---
 st.subheader(f"{selected_section} Description")
 st.write(section.get("description", "No details available"))
+
+# --- JS Timer Renderer ---
+def render_js_timer(timer_id, seconds=60):
+    html_code = f"""
+    <div style="text-align: center; font-size: 24px; font-weight: bold; margin-top: 10px;">
+        ⏳ Rest Timer for Set {timer_id}: <span id="timer_{timer_id}">{seconds}</span> seconds
+    </div>
+    <script>
+        var seconds_{timer_id} = {seconds};
+        var timerDisplay_{timer_id} = document.getElementById('timer_{timer_id}');
+        var countdown_{timer_id} = setInterval(function() {{
+            seconds_{timer_id}--;
+            timerDisplay_{timer_id}.textContent = seconds_{timer_id};
+            if (seconds_{timer_id} <= 0) {{
+                clearInterval(countdown_{timer_id});
+                timerDisplay_{timer_id}.textContent = "✅ Done!";
+            }}
+        }}, 1000);
+    </script>
+    """
+    html(html_code, height=100)
 
 # --- Display Exercises ---
 if exercises:
@@ -96,21 +108,8 @@ if exercises:
             cols[2].write(f'{row["Reps"]} reps')
             cols[3].write(f'{row["Weight"]} kg')
 
-            button_key = f"set_complete_{i}"
-            timer_key = f"timer_{i}"
-
-            # Start timer
-            if cols[4].button("✅ Set Complete", key=button_key):
-                st.session_state.rest_timer[timer_key] = time.time() + int(row.get("Rest", 60))
-
-            # Show countdown
-            if timer_key in st.session_state.rest_timer:
-                remaining = int(st.session_state.rest_timer[timer_key] - time.time())
-                if remaining > 0:
-                    st.info(f"⏳ Rest: **{remaining} seconds** remaining")
-                else:
-                    st.success("✅ Rest complete! Ready for next set.")
-                    del st.session_state.rest_timer[timer_key]
+            if cols[4].button("✅ Set Complete", key=f"set_complete_{i}"):
+                render_js_timer(timer_id=i, seconds=int(row.get("Rest", 60)))
 
     # --- Non-Strength Section Static Table ---
     else:
