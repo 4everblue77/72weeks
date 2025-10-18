@@ -111,7 +111,7 @@ if workouts:
   
   with st.form("day_selector_form"):
       for i, day in enumerate(all_days):
-          day_label = weekday_map[day]
+          day_label = weekday_map[int(day)]
           workout_exists = day in workout_map
           completed = day_status.get(day, False)
   
