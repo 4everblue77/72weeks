@@ -150,7 +150,7 @@ if workouts:
                     border: none;
                     font-size: 2rem;
                     line-height: 1;
-                    padding: 0.2em;
+                    padding: 0;
                     margin-top: -0.5em;
                     color: black;
                 }}
