@@ -97,46 +97,37 @@ if exercises:
                 "Reps": reps,
                 "Weight": weight
             })
-
+            
+    # Auto-refresh every second if any timer is active
+    if any(time.time() < end for end in st.session_state.rest_timer.values()):
+        st_autorefresh(interval=1000, limit=60, key="rest_refresh")
+        
     # ✅ Render interactive rows for Strength section
     if selected_section == "Strength":
         st.subheader("Strength Sets")
-        
-
-
         for i, row in enumerate(expanded_rows):
             cols = st.columns([3, 1, 1, 1, 2])
             cols[0].write(row["Exercise"])
             cols[1].write(f'Set {row["Set"]}')
             cols[2].write(f'{row["Reps"]} reps')
             cols[3].write(f'{row["Weight"]} kg')
-
+    
             button_key = f"set_complete_{i}"
             timer_key = f"timer_{i}"
-            
-
+    
             # Start timer
             if cols[4].button("✅ Set Complete", key=button_key):
                 st.session_state.rest_timer[timer_key] = time.time() + int(row.get("Rest", 60))
-                st.session_state.trigger_rerun = True
     
             # Show countdown
             if timer_key in st.session_state.rest_timer:
                 remaining = int(st.session_state.rest_timer[timer_key] - time.time())
                 if remaining > 0:
                     st.info(f"⏳ Rest: **{remaining} seconds** remaining")
-                    #time.sleep(1)
-                    st.session_state.trigger_rerun = True
                 else:
                     st.success("✅ Rest complete! Ready for next set.")
                     del st.session_state.rest_timer[timer_key]
     
-    # Trigger rerun once after loop
-    if st.session_state.trigger_rerun:
-        st.session_state.trigger_rerun = False
-        #st.experimental_rerun()
-
-
 
 
     else:
