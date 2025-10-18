@@ -14,9 +14,28 @@ st.set_page_config(page_title="OpenPrep Tracker", layout="wide", initial_sidebar
 
 
 
+# Scoped CSS for default buttons only
+st.default("""
+<style>
+div.default-button > button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75em 1em;
+    font-size: 1.1rem;
+    font-weight: 500;
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+div.default-button > button:hover {
+    background-color: #e0e2e6;
+}
+</style>
+""", unsafe_allow_html=True)
 
-
-
+# Scoped CSS for section buttons onl
 st.markdown("""
 <style>
 div.section-button > button {
@@ -57,9 +76,11 @@ if "selected_week" not in st.session_state:
 # Week navigation arrows
 col1, col2, col3 = st.columns([1, 2, 1])
 with col1:
+    st.markdown('<div class="default-button">', unsafe_allow_html=True)
     if st.button("⬅️ Previous Week"):
         st.session_state.selected_week = max(1, st.session_state.selected_week - 1)
 with col3:
+    st.markdown('<div class="default-button">', unsafe_allow_html=True)
     if st.button("➡️ Next Week"):
         st.session_state.selected_week += 1
 
@@ -142,6 +163,7 @@ if workouts:
         button_text = f"{day_label[0]}\n{icon}"
 
         with cols[i]:
+            st.markdown('<div class="default-button">', unsafe_allow_html=True)
             if st.button(button_text, key=f"day_{day}"):
                 st.session_state.selected_day = day
 else:
