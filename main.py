@@ -98,6 +98,10 @@ weekday_map = {
 if workouts is not None:
     cols = st.columns(len(all_days))
     selected = False
+  
+    st.write("Days with workouts:", days)
+    st.write("All days:", all_days)
+
 
     for i, day in enumerate(all_days):
         day_label = weekday_map[day]
