@@ -123,14 +123,19 @@ if workouts:
                 icon = f"{icons['completed']}" if completed else icons["incomplete"]
             else:
                 icon = icons["rest"]
-    
-            button_key = f"day-{day}"
+
+            is_today = current_day_index is not None and day == current_day_index + 1
+          
             highlight_style = ""
-            if current_day_index is not None and day == current_day_index + 1:
+            if is_today:
                 highlight_style = "font-weight: bold;"
-                st.markdown(f"**{day_label[0]}**")
             else:
-                st.markdown(f"{day_label[0]}")
+                highlight_style = "font-weight: light;"
+
+            # Weekday initial as header
+            st.markdown(f"<div style='text-align: center; {highlight_style}'>{day_label[0]}</div>", unsafe_allow_html=True
+
+            button_key = f"day-{day}"
 
   
             # Inject style
