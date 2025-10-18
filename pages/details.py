@@ -79,7 +79,7 @@ if exercises:
             })
 
     df_display = pd.DataFrame(expanded_rows)
-    st.table(df_display)
+    st.table(df_display.style.hide(axis="index"))
 else:
     st.warning("No exercises found.")
 
