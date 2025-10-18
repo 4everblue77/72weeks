@@ -48,6 +48,7 @@ div.section-button > button {
     background-color: #ffffff;
     border-radius: 8px;
     border: 10px solid grey;
+    cursor: pointer;
 }
 div.section-button > button:hover {
     background-color: #e0e2e6;
