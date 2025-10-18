@@ -95,7 +95,7 @@ weekday_map = {
 }
 
 
-if all_days:
+if workouts:
     cols = st.columns(len(all_days))
     selected = False
   
