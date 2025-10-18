@@ -2,6 +2,7 @@
 import streamlit as st
 from supabase import create_client
 import pandas as pd
+import time
 
 # Supabase credentials
 SUPABASE_URL = "https://vsujjsdbwrcjgyqymjcq.supabase.co"
