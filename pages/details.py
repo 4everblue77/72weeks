@@ -78,8 +78,10 @@ if exercises:
                 "Weight (kg)": weight
             })
 
-    df_display = pd.DataFrame(expanded_rows)
-    st.table(df_display.style.hide(axis="index"))
+    
+    # ✅ Remove index by converting to list of dicts
+    st.table(pd.DataFrame(expanded_rows).to_dict(orient="records"))
+
 else:
     st.warning("No exercises found.")
 
