@@ -92,7 +92,7 @@ if exercises:
     table {{
         width: 100%;
         border-collapse: collapse;
-        font-family: inherit
+        font-family: inherit;
     }}
     th, td {{
         text-align: center;
