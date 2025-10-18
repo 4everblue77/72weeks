@@ -14,6 +14,10 @@ selected_day = st.session_state.get("selected_day", "")
 selected_week = st.session_state.get("selected_week", "")
 selected_section = st.session_state.get("selected_section", "")
 
+# Initialize rest_timer dictionary in session state
+if "rest_timer" not in st.session_state:
+    st.session_state.rest_timer = {}
+
 if not selected_day or not selected_week or not selected_section:
     st.error("Missing day or section. Please return to the main page.")
     st.stop()
