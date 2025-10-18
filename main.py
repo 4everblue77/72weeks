@@ -91,8 +91,8 @@ for day in days:
 #all_days = list(range(1, 8))  # Days 1 to 7 (Mon to Sun)
 workout_map = {w['day']: w for w in workouts}
 #weekday_map = {
-    1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
-}
+ # 1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
+#}
 
 
 all_days = list(range(1, 8))
