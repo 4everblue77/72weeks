@@ -178,7 +178,7 @@ else:
 # Show selected day workout
 if "selected_day" in st.session_state:
     selected_day = st.session_state.selected_day
-    st.subheader(f"{weekday_map[selected_day]} (Day {selected_day})")
+    st.subheader(f"{weekday_map[selected_day]} (Day {selected_day}) Est. Time: {workout.get('expected_total_time_minutes', 'N/A')} minutes")
 
     if selected_day not in workout_map:
         st.info("🛌 Rest Day – No workout scheduled.")
