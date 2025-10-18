@@ -104,24 +104,17 @@ if workouts:
 
         with cols[i]:
 
+
+            # Weekday initial
             st.markdown(
-                f"""
-                <div style='text-align: center; font-weight: bold; font-size: 1.2rem;'>{day_label[0]}</div>
-                <div style='text-align: center; margin-top: 4px;'>
-                    <form action="" method="post">
-                        <button name="day_{day}" style="
-                            background: none;
-                            border: none;
-                            font-size: 2rem;
-                            cursor: pointer;
-                        ">{icon}</button>
-                    </form>
-                </div>
-                """,
+                f"<div style='text-align: center; font-weight: bold; font-size: 1.2rem;'>{day_label[0]}</div>",
                 unsafe_allow_html=True
             )
-            if st.session_state.get(f"day_{day}_clicked", False):
+
+            # Centered button with icon
+            if st.button(icon, key=f"day_{day}"):
                 st.session_state.selected_day = day
+
 
 
 else:
