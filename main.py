@@ -17,7 +17,7 @@ st.set_page_config(page_title="OpenPrep Tracker", layout="wide", initial_sidebar
 # Scoped CSS for default buttons only
 st.markdown("""
 <style>
-div.default-button > button {
+div[data-testid="stButton"][class*="default-btn"] > button {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -29,7 +29,7 @@ div.default-button > button {
     border: none;
     cursor: pointer;
 }
-div.default-button > button:hover {
+div[data-testid="stButton"][class*="default-btn"] > button:hover {
     background-color: #e0e2e6;
 }
 </style>
@@ -38,7 +38,7 @@ div.default-button > button:hover {
 # Scoped CSS for section buttons onl
 st.markdown("""
 <style>
-div.section-button > button {
+div[data-testid="stButton"][class*="section-btn"] > button {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -50,7 +50,7 @@ div.section-button > button {
     border: 10px solid grey;
     cursor: pointer;
 }
-div.section-button > button:hover {
+div[data-testid="stButton"][class*="section-btn"] > button:hover {
     background-color: #e0e2e6;
 }
 </style>
@@ -77,11 +77,11 @@ if "selected_week" not in st.session_state:
 col1, col2, col3 = st.columns([1, 2, 1])
 with col1:
     st.markdown('<div class="default-button">', unsafe_allow_html=True)
-    if st.button("⬅️ Previous Week"):
+    if st.button("⬅️ Previous Week",key=f"default-btn"):
         st.session_state.selected_week = max(1, st.session_state.selected_week - 1)
 with col3:
     st.markdown('<div class="default-button">', unsafe_allow_html=True)
-    if st.button("➡️ Next Week"):
+    if st.button("➡️ Next Week",key=f"default-btn"):
         st.session_state.selected_week += 1
 
 selected_week = st.session_state.selected_week
@@ -195,7 +195,7 @@ if "selected_day" in st.session_state:
 
             # Wrap each button in a div with class 'section-button'
             st.markdown('<div class="section-button">', unsafe_allow_html=True)
-            if st.button(button_label, key=f"{section}_btn", use_container_width = True):
+            if st.button(button_label, key=f"section-btn-{section}", use_container_width = True):
                 st.session_state.selected_section = section
                 st.success(f"You selected: {section}")
             st.markdown('</div>', unsafe_allow_html=True)
