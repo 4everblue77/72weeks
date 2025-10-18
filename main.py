@@ -15,7 +15,7 @@ st.set_page_config(page_title="OpenPrep Tracker", layout="wide", initial_sidebar
 
 
 # Scoped CSS for default buttons only
-st.default("""
+st.markdown("""
 <style>
 div.default-button > button {
     display: flex;
