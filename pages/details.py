@@ -108,6 +108,8 @@ if exercises:
                     remaining = int(st.session_state.rest_timer[timer_key] - time.time())
                     if remaining > 0:
                         st.info(f"⏳ Rest: **{remaining} seconds** remaining")
+                        time.sleep(1)
+                        st.experimental_rerun()
                     else:
                         st.success("✅ Rest complete! Ready for next set.")
                         del st.session_state.rest_timer[timer_key]
