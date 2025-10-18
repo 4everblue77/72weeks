@@ -49,7 +49,7 @@ week_range = f"Week {selected_week}: {week_start_date.strftime('%b %d')} - {week
 st.markdown(f"### 📅 {week_range}")
 
 # Determine current day index (0=Mon, 6=Sun)
-current_day_index = (today - week_start_date).days if week_start_date <= today <= week_end_date else ""
+current_day_index = (today - week_start_date).days if week_start_date <= today <= week_end_date else None
 
 
 # Fetch workouts
