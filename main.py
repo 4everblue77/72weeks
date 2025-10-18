@@ -133,7 +133,7 @@ if workouts:
                 highlight_style = "font-weight: light;"
 
             # Weekday initial as header
-            st.markdown(f"<div style='text-align: center; {highlight_style}'>{day_label[0]}</div>", unsafe_allow_html=True
+            st.markdown(f"<div style='text-align: center; {highlight_style}'>{day_label[0]}</div>", unsafe_allow_html=True)
 
             button_key = f"day-{day}"
 
