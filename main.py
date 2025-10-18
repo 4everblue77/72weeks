@@ -150,9 +150,10 @@ if workouts:
                     border: none;
                     font-size: 2rem;
                     line-height: 1;
-                    padding: 0;
+                    padding: 0.2em;
                     margin-top: -0.5em;
                     color: black;
+                    outline: none;
                 }}
                 button[data-testid="baseButton"][aria-label="{button_key}"]:hover {{
                     background-color: #f0f0f0;
