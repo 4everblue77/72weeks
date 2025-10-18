@@ -103,8 +103,15 @@ if workouts:
         button_label = f"{icon} {day_label}"
 
         with cols[i]:
-            if st.button(button_label, key=f"day_{day}"):
+
+            st.markdown(
+                f"<div style='text-align: center; font-weight: bold; font-size: 1.2rem;'>{day_label[0]}</div>",
+                unsafe_allow_html=True
+            )
+            clicked = st.button(icon, key=f"day_{day}")
+            if clicked:
                 st.session_state.selected_day = day
+
 else:
     st.warning("No workouts available for this week.")
 
@@ -125,7 +132,7 @@ if "selected_day" in st.session_state:
         st.markdown("### Sections")
         for section in sections:
             completed = completion_lookup.get((selected_day, section), False)
-            icon = "✔️" if completed else "❌"
+            icon = "✔️" if completed else "⚫"
             button_label = f"{icon} {section}"
 
             with st.form(f"{section}_form"):
