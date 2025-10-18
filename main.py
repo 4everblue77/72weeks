@@ -132,7 +132,7 @@ if all_days:
                 </style>
             """, unsafe_allow_html=True)
 
-            if workout_exists and st.button(day_label, key=button_key):
+            if st.button(day_label, key=button_key):
                 st.session_state.selected_day = day
                 selected = True
 
