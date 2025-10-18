@@ -107,23 +107,28 @@ if exercises:
             button_key = f"set_complete_{i}"
             timer_key = f"timer_{i}"
             
+
+            # Start timer
             if cols[4].button("✅ Set Complete", key=button_key):
                 st.session_state.rest_timer[timer_key] = time.time() + int(row.get("Rest", 60))
                 st.session_state.trigger_rerun = True
-                
-                if timer_key in st.session_state.rest_timer:
-                    remaining = int(st.session_state.rest_timer[timer_key] - time.time())
-                    if remaining > 0:
-                        st.info(f"⏳ Rest: **{remaining} seconds** remaining")
-                        time.sleep(1)
-                        st.session_state.trigger_rerun = True
-                    else:
-                        st.success("✅ Rest complete! Ready for next set.")
-                        del st.session_state.rest_timer[timer_key]
-        
-        if st.session_state.trigger_rerun:
-            st.session_state.trigger_rerun = False
-            st.experimental_rerun()
+    
+            # Show countdown
+            if timer_key in st.session_state.rest_timer:
+                remaining = int(st.session_state.rest_timer[timer_key] - time.time())
+                if remaining > 0:
+                    st.info(f"⏳ Rest: **{remaining} seconds** remaining")
+                    time.sleep(1)
+                    st.session_state.trigger_rerun = True
+                else:
+                    st.success("✅ Rest complete! Ready for next set.")
+                    del st.session_state.rest_timer[timer_key]
+    
+    # Trigger rerun once after loop
+    if st.session_state.trigger_rerun:
+        st.session_state.trigger_rerun = False
+        st.experimental_rerun()
+
 
 
 
