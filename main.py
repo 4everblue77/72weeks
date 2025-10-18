@@ -12,26 +12,7 @@ user_id = "123e4567-e89b-12d3-a456-426614174000"
 
 st.set_page_config(page_title="OpenPrep Tracker", layout="wide", initial_sidebar_state="collapsed")
 
-# Inject CSS for styling buttons
-st.markdown("""
-<style>
-div[data-testid="stButton"] > button {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75em 1em;
-    font-size: 1.1rem;
-    font-weight: 500;
-    background-color: #ffffff;
-    border-radius: 8px;
-    border: none;
-}
-div[data-testid="stButton"] > button:hover {
-    background-color: #e0e2e6;
-}
-</style>
-""", unsafe_allow_html=True)
+
 
 
 
