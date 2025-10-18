@@ -90,12 +90,17 @@ if exercises:
 
             button_key = f"set_complete_{i}"
             if cols[4].button("✅ Set Complete", key=button_key):
-                rest_placeholder = st.empty()
-                rest_seconds = int(row.get("Rest", 60))
-                for sec in range(rest_seconds, 0, -1):
-                    rest_placeholder.markdown(f"⏳ Rest: **{sec} seconds** remaining")
-                    time.sleep(1)
-                rest_placeholder.markdown("✅ Rest complete! Ready for next set.")
+                st.session_state.rest_timer[timer_key] = time.time() + int(row.get("Rest", 60))
+
+                # Show countdown if timer is active
+                if timer_key in st.session_state.rest_timer:
+                    remaining = int(st.session_state.rest_timer[timer_key] - time.time())
+                    if remaining > 0:
+                        st.info(f"⏳ Rest: **{remaining} seconds** remaining")
+                    else:
+                        st.success("✅ Rest complete! Ready for next set.")
+                        del st.session_state.rest_timer[timer_key]
+
     else:
         # For non-strength sections, show static table
         df_display = pd.DataFrame(expanded_rows)
