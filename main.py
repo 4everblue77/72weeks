@@ -142,27 +142,28 @@ if workouts:
             # Custom button with no border and centered icon
             button_clicked = st.button(icon, key=button_key)
     
-            # Inject scoped style
- 
+
+            # Inject scoped style to remove border and customize appearance
             st.markdown(f"""
                 <style>
                 button[data-testid="baseButton"][aria-label="{button_key}"] {{
-                    background-color: transparent !important;
+                    background: none !important;
                     border: none !important;
                     box-shadow: none !important;
                     outline: none !important;
-                    font-size: 2rem;
-                    line-height: 1;
-                    padding: 0.2em;
-                    margin-top: -0.5em;
-                    color: black;
+                    padding: 0 !important;
+                    margin: 0 auto !important;
+                    display: block !important;
+                    font-size: 2rem !important;
+                    color: black !important;
                 }}
                 button[data-testid="baseButton"][aria-label="{button_key}"]:hover {{
-                    background-color: #f0f0f0 !important;
-                    border-radius: 50%;
+                    background-color: transparent !important;
+                    transform: scale(1.2);
                 }}
                 </style>
             """, unsafe_allow_html=True)
+
 
     
             if button_clicked:
