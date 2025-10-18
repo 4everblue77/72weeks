@@ -76,8 +76,10 @@ if exercises:
                 "Weight (kg)": weight
             })
 
-    # ✅ Pass list of dicts directly to st.table
-    st.table(expanded_rows)
+
+    # ✅ Use st.dataframe with styling to hide index
+    st.dataframe(pd.DataFrame(expanded_rows).style.hide(axis="index"), use_container_width=True)
+
 else:
     st.warning("No exercises found.")
 
