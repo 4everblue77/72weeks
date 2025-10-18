@@ -1,17 +1,17 @@
-
-
 import streamlit as st
+
 from supabase import create_client
 from datetime import datetime, timedelta
+## from config import SUPABASE_URL, SUPABASE_KEY
 
-# Supabase credentials
 SUPABASE_URL = "https://vsujjsdbwrcjgyqymjcq.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzdWpqc2Rid3Jjamd5cXltamNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2NTY4OTgsImV4cCI6MjA3NjIzMjg5OH0.bIUQ4am5pO2MoEJqmyhrwFxTWh1P6C_hdYoM_ttoJZY"
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 user_id = "123e4567-e89b-12d3-a456-426614174000"
 
 st.set_page_config(page_title="OpenPrep Tracker", layout="wide", initial_sidebar_state="collapsed")
+                   
 
 # Fixed start date
 START_DATE = datetime(2025, 10, 13)
@@ -21,11 +21,13 @@ today = datetime.today()
 days_since_start = (today - START_DATE).days
 default_week = max(1, (days_since_start // 7) + 1)
 
+
 # Initialize session state
 if "selected_week" not in st.session_state:
     st.session_state.selected_week = default_week
 
-# Week navigation
+
+# Week navigation arrows
 col1, col2, col3 = st.columns([1, 2, 1])
 with col1:
     if st.button("⬅️ Previous Week"):
@@ -36,46 +38,118 @@ with col3:
 
 selected_week = st.session_state.selected_week
 
-# Week range display
+
+# Calculate week range
 week_start_date = START_DATE + timedelta(weeks=selected_week - 1)
 week_end_date = week_start_date + timedelta(days=6)
 week_range = f"Week {selected_week}: {week_start_date.strftime('%b %d')} - {week_end_date.strftime('%b %d')}"
 st.markdown(f"### 📅 {week_range}")
 
-# Fetch workouts and completion data
-workouts_resp = supabase.table("workouts").select("*").eq("week", f"Week {selected_week}").execute()
-workouts = workouts_resp.data
+# Determine current day index (0=Mon, 6=Sun)
+current_day_index = (today - week_start_date).days if week_start_date <= today <= week_end_date else None
 
+
+# Fetch workouts
+response = supabase.table("workouts").select("*").eq("week", f"Week {selected_week}").execute()
+workouts = response.data
+
+days = [w['day'] for w in workouts]
+
+# Fetch completion data
 completion_resp = supabase.table("completion").select("*").eq("user_id", user_id).eq("week", f"Week {selected_week}").execute()
 completion_data = completion_resp.data
 
-# Build maps
+# Build completion map
+
+
+
 workout_map = {w['day']: w for w in workouts}
-completion_lookup = {
-    (c["day"], c["section"]): c["completed"]
-    for c in completion_data
+
+
+
+
+
+day_status = {}
+for day in days:
+    sections = ["Warmup", "Strength", "Conditioning", "Cooldown"]
+    completed_sections = [
+        c for c in completion_data
+        if c["day"] == day and c["section"] in sections and c["completed"]
+    ]
+    day_status[day] = len(completed_sections) == len(sections)
+
+
+
+
+# Horizontal day selector
+##st.markdown("### Select a Day")
+
+
+all_days = list(range(1, 8))  # Days 1 to 7 (Mon to Sun)
+workout_map = {w['day']: w for w in workouts}
+weekday_map = {
+  1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
 }
 
-# Day status
-sections = ["Warmup", "Strength", "Conditioning", "Cooldown"]
-day_status = {
-    day: all(completion_lookup.get((day, section), False) for section in sections)
-    for day in workout_map
-}
 
-# Day selector
-weekday_map = {1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"}
-all_days = list(range(1, 8))
+
+
+
 
 if workouts:
-    with st.form("day_selector_form"):
-        selected_day = st.radio("Select a day", options=all_days, format_func=lambda x: weekday_map[x])
-        submitted = st.form_submit_button("Go")
-
-    if submitted:
-        st.session_state.selected_day = selected_day
+  cols = st.columns(7)
+  selected = False
+  
+  icons = {
+      "completed": "✔️",
+      "incomplete": "⚫",
+      "rest": "⚪"
+  }
+  
+  with st.form("day_selector_form"):
+      for i, day in enumerate(all_days):
+          day_label = weekday_map[int(day)]
+          workout_exists = day in workout_map
+          completed = day_status.get(day, False)
+  
+          if workout_exists:
+              icon = icons["completed"] if completed else icons["incomplete"]
+          else:
+              icon = icons["rest"]
+  
+          with cols[i]:
+              # Weekday initial
+              st.markdown(f"<div style='text-align: center; font-weight: bold; font-size: 1.2rem;'>{day_label[0]}</div>", unsafe_allow_html=True)
+  
+              # HTML button
+              st.markdown(f"""
+                  <button type="submit" name="selected_day" value="{day}" style="
+                      background: none;
+                      border: none;
+                      box-shadow: none;
+                      outline: none;
+                      font-size: 2rem;
+                      color: black;
+                      cursor: pointer;
+                      display: block;
+                      margin: 0 auto;
+                  ">{icon}</button>
+              """, unsafe_allow_html=True)
+  
+      submitted = st.form_submit_button("")
+  
+  # Capture selected day
+  if submitted:
+      selected_day = st.query_params().get("selected_day", [None])
+      if selected_day:
+          st.session_state.selected_day = int(selected_day)
 else:
     st.warning("No workouts available for this week.")
+
+
+
+
+
 
 # Show selected day workout
 if "selected_day" in st.session_state:
@@ -85,22 +159,34 @@ if "selected_day" in st.session_state:
     if selected_day not in workout_map:
         st.info("🛌 Rest Day – No workout scheduled.")
     else:
+        sections = ["Warmup", "Strength", "Conditioning", "Cooldown"]
         st.markdown("### Sections")
+
+        if "pending_navigation" not in st.session_state:
+            st.session_state.pending_navigation = None
+
         for section in sections:
-            completed = completion_lookup.get((selected_day, section), False)
+            completed_resp = supabase.table("completion").select("completed").eq("user_id", user_id).eq("week", selected_week).eq("day", selected_day).eq("section", section).execute()
+            completed = completed_resp.data[0]['completed'] if completed_resp.data else False
+
             button_color = "#4CAF50" if completed else "#F44336"
 
+            if st.button(section, key=f"{section}-btn"):
+                st.session_state.selected_section = section
+                st.switch_page("pages/details.py")
+
             st.markdown(f"""
-                <div style="margin-bottom: 10px;">
-                    <button style="
-                        background-color: {button_color};
-                        color: white;
-                        border: none;
-                        padding: 0.5em 1em;
-                        border-radius: 5px;
-                        font-size: 1rem;
-                        cursor: default;
-                    ">{section}</button>
-                </div>
+                <style>
+                button[data-testid="baseButton"][aria-label="{section}-btn"] {{
+                    background-color: {button_color};
+                    color: white;
+                    border: none;
+                    padding: 0.5em 1em;
+                    border-radius: 5px;
+                }}
+                </style>
             """, unsafe_allow_html=True)
+
+
+
 
