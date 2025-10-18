@@ -197,8 +197,12 @@ if "selected_day" in st.session_state:
             st.markdown('<div class="section-button">', unsafe_allow_html=True)
             if st.button(button_label, key=f"section-btn-{section}", use_container_width = True):
                 st.session_state.selected_section = section
-                st.success(f"You selected: {section}")
-            st.markdown('</div>', unsafe_allow_html=True)
+
+                st.session_state.selected_day = selected_day
+                st.session_state.selected_week = selected_week
+                st.switch_page("pages/details.py")  # Navigate to details page
+
+
 
 
 
