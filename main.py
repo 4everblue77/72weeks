@@ -135,7 +135,7 @@ if workouts:
                         ">{icon}</button>
                                     """, unsafe_allow_html=True)
                         
-                submitted = st.form_submit_button("")
+                  submitted = st.form_submit_button("")
                         
                 # Capture selected day
                 if "selected_day" not in st.session_state:
