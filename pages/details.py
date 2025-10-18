@@ -90,6 +90,12 @@ if exercises:
     # ✅ Render interactive rows for Strength section
     if selected_section == "Strength":
         st.subheader("Strength Sets")
+        
+        if "rest_timer" not in st.session_state:
+            st.session_state.rest_timer = {}
+        if "trigger_rerun" not in st.session_state:
+            st.session_state.trigger_rerun = False
+
         for i, row in enumerate(expanded_rows):
             cols = st.columns([3, 1, 1, 1, 2])
             cols[0].write(row["Exercise"])
@@ -102,17 +108,23 @@ if exercises:
             
             if cols[4].button("✅ Set Complete", key=button_key):
                 st.session_state.rest_timer[timer_key] = time.time() + int(row.get("Rest", 60))
-
-                # Show countdown if timer is active
+                st.session_state.trigger_rerun = True
+                
                 if timer_key in st.session_state.rest_timer:
                     remaining = int(st.session_state.rest_timer[timer_key] - time.time())
                     if remaining > 0:
                         st.info(f"⏳ Rest: **{remaining} seconds** remaining")
                         time.sleep(1)
-                        st.experimental_rerun()
+                        st.session_state.trigger_rerun = True
                     else:
                         st.success("✅ Rest complete! Ready for next set.")
                         del st.session_state.rest_timer[timer_key]
+        
+        if st.session_state.trigger_rerun:
+            st.session_state.trigger_rerun = False
+            st.experimental_rerun()
+
+
 
     else:
         # For non-strength sections, show static table
