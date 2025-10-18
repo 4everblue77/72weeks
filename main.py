@@ -128,8 +128,9 @@ if workouts:
             highlight_style = ""
             if current_day_index is not None and day == current_day_index + 1:
                 highlight_style = "font-weight: bold;"
-
-
+                st.markdown(f"**{day_label[0]}**")
+            else:
+                st.markdown(f"{day_label[0]}")
 
   
             # Inject style
