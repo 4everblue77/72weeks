@@ -105,12 +105,24 @@ if workouts:
         with cols[i]:
 
             st.markdown(
-                f"<div style='text-align: center; font-weight: bold; font-size: 1.2rem;'>{day_label[0]}</div>",
+                f"""
+                <div style='text-align: center; font-weight: bold; font-size: 1.2rem;'>{day_label[0]}</div>
+                <div style='text-align: center; margin-top: 4px;'>
+                    <form action="" method="post">
+                        <button name="day_{day}" style="
+                            background: none;
+                            border: none;
+                            font-size: 2rem;
+                            cursor: pointer;
+                        ">{icon}</button>
+                    </form>
+                </div>
+                """,
                 unsafe_allow_html=True
             )
-            clicked = st.button(icon, key=f"day_{day}")
-            if clicked:
+            if st.session_state.get(f"day_{day}_clicked", False):
                 st.session_state.selected_day = day
+
 
 else:
     st.warning("No workouts available for this week.")
