@@ -93,7 +93,7 @@ if exercises:
             table {{
                 width: 100%;
                 border-collapse: collapse;
-                font-family: inherit; /* Match Streamlit font */
+                font-family: "Source Sans Pro", sans-serif; /* Match Streamlit font */
             }}
             th, td {{
                 text-align: center;
