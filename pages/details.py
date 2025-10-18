@@ -42,7 +42,7 @@ exercises = exercise_resp.data
 # Header
 st.title(f"{selected_section} Details")
 st.markdown(f"**Week:** {selected_week} | **Day:** {selected_day}")
-st.markdown(f"**Estimated Total Time:** {workout.get('expected_total_time_minutes', 'N/A')} minutes")
+st.markdown(f"**Estimated Time:** {section.get('time_minutes', 'N/A')} minutes")
 st.divider()
 
 # Display section description
