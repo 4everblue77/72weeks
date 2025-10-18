@@ -81,23 +81,37 @@ if exercises:
     # ✅ Render as HTML table without index
     df_display = pd.DataFrame(expanded_rows)
     
-    # Add CSS for centering text
+
+    # Generate HTML table with custom CSS
     html_table = df_display.to_html(index=False)
+    
     centered_html = f"""
+    <html>
+    <head>
     <style>
     table {{
         width: 100%;
         border-collapse: collapse;
-        text-align: center;
     }}
     th, td {{
         text-align: center;
         padding: 8px;
+        border: 1px solid #ddd;
+    }}
+    th {{
+        background-color: #f2f2f2;
     }}
     </style>
+    </head>
+    <body>
     {html_table}
+    </body>
+    </html>
     """
-    st.markdown(centered_html, unsafe_allow_html=True)
+    
+    # Render using st.components.html
+    st.components.v1.html(centered_html, height=500, scrolling=True)
+
 
 else:
     st.warning("No exercises found.")
