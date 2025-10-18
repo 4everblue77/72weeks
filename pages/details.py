@@ -60,7 +60,6 @@ if exercises:
         name = ex.get("name", "")
         
         if selected_section == "Strength":
-            # Create one row per set
             for s in range(1, sets + 1):
                 expanded_rows.append({
                     "Set": s,
@@ -70,7 +69,6 @@ if exercises:
                     "Rest (sec)": section.get("rest_seconds", "")
                 })
         else:
-            # For non-strength, keep one row per exercise
             expanded_rows.append({
                 "Exercise": name,
                 "Sets": ex.get("sets", ""),
@@ -78,12 +76,8 @@ if exercises:
                 "Weight (kg)": weight
             })
 
-    
-
-    # ✅ Pass list of dicts to st.table to hide index
+    # ✅ Pass list of dicts directly to st.table
     st.table(expanded_rows)
-
-
 else:
     st.warning("No exercises found.")
 
