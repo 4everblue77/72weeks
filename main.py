@@ -128,6 +128,8 @@ if workouts:
             highlight_style = ""
             if current_day_index is not None and day == current_day_index + 1:
                 highlight_style = "font-weight: bold;"
+            elif
+                highlight_style = "font-weight: light;"
 
 
   
