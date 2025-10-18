@@ -138,24 +138,34 @@ if workouts:
             button_key = f"day-{day}"
 
   
-            # Inject style
+
+            # Custom button with no border and centered icon
+            button_clicked = st.button(icon, key=button_key)
+    
+            # Inject scoped style
             st.markdown(f"""
                 <style>
                 button[data-testid="baseButton"][aria-label="{button_key}"] {{
                     background-color: transparent;
-                    color: black;
                     border: none;
-                    font-size: 1.5em;
-                    {highlight_style}
+                    font-size: 2rem;
+                    line-height: 1;
+                    padding: 0.2em;
+                    margin-top: -0.5em;
+                    color: black;
+                }}
+                button[data-testid="baseButton"][aria-label="{button_key}"]:hover {{
+                    background-color: #f0f0f0;
+                    border-radius: 50%;
                 }}
                 </style>
             """, unsafe_allow_html=True)
     
-            # Render button
-            if st.button(icon, key=button_key):
+            if button_clicked:
                 st.session_state.selected_day = day
                 st.session_state.selected_section = None
                 selected = True
+
 
 
 
