@@ -47,7 +47,7 @@ div.section-button > button {
     font-weight: 500;
     background-color: #ffffff;
     border-radius: 8px;
-    border: 1px solid grey;
+    border: 10px solid grey;
 }
 div.section-button > button:hover {
     background-color: #e0e2e6;
