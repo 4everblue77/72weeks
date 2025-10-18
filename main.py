@@ -138,12 +138,20 @@ if "selected_day" in st.session_state:
         for section in sections:
             completed = completion_lookup.get((selected_day, section), False)
             icon = "✔️" if completed else "⚫"
-            button_label = f"{icon} {section}"
+           
+            # Create a full-width clickable box using st.button
+            button_label = f"""
+            <div style='display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0.75em 1em; font-size: 1.1rem; font-weight: 500;'>
+                <span>{section}</span>
+                <span>{icon}</span>
+            </div>
+            """
 
-            with st.form(f"{section}_form"):
-                if st.form_submit_button(button_label):
-                    st.success(f"You selected: {section}")
-                    st.session_state.selected_section = section
+            if st.button(button_label, key=f"{section}_btn", use_container_width=True):
+                st.session_state.selected_section = section
+                st.success(f"You selected: {section}")
+                # Navigation logic can be added here
+
 
 
 
