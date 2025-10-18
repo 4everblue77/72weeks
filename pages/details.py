@@ -77,11 +77,13 @@ if exercises:
             })
 
 
-    # ✅ Use st.dataframe with styling to hide index
-    st.dataframe(pd.DataFrame(expanded_rows).style.hide(axis="index"), use_container_width=True)
 
+    # ✅ Render as HTML table without index
+    df_display = pd.DataFrame(expanded_rows)
+    st.markdown(df_display.to_html(index=False), unsafe_allow_html=True)
 else:
     st.warning("No exercises found.")
+
 
 
 # Action buttons
