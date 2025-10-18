@@ -85,66 +85,34 @@ for day in days:
 ##st.markdown("### Select a Day")
 
 
-all_days = list(range(1, 8))  # Days 1 to 7 (Mon to Sun)
-workout_map = {w['day']: w for w in workouts}
-weekday_map = {
-  1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
-}
 
-
-
-
-
+# Day selector with buttons
+weekday_map = {1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"}
+all_days = list(range(1, 8))
 
 if workouts:
-  cols = st.columns(7)
-  selected = False
-  
-  icons = {
-      "completed": "✔️",
-      "incomplete": "⚫",
-      "rest": "⚪"
-  }
-  
-  with st.form("day_selector_form"):
-      for i, day in enumerate(all_days):
-          day_label = weekday_map[int(day)]
-          workout_exists = day in workout_map
-          completed = day_status.get(day, False)
-  
-          if workout_exists:
-              icon = icons["completed"] if completed else icons["incomplete"]
-          else:
-              icon = icons["rest"]
-  
-          with cols[i]:
-              # Weekday initial
-              st.markdown(f"<div style='text-align: center; font-weight: bold; font-size: 1.2rem;'>{day_label[0]}</div>", unsafe_allow_html=True)
-  
-              # HTML button
-              st.markdown(f"""
-                  <button type="submit" name="selected_day" value="{day}" style="
-                      background: none;
-                      border: none;
-                      box-shadow: none;
-                      outline: none;
-                      font-size: 2rem;
-                      color: black;
-                      cursor: pointer;
-                      display: block;
-                      margin: 0 auto;
-                  ">{icon}</button>
-              """, unsafe_allow_html=True)
-  
-      submitted = st.form_submit_button("")
-  
-  # Capture selected day
-  if submitted:
-      selected_day = st.query_params().get("selected_day", [None])
-      if selected_day:
-          st.session_state.selected_day = int(selected_day)
+    st.markdown("### Select a Day")
+    cols = st.columns(7)
+    icons = {
+        "completed": "✔️",
+        "incomplete": "⚫",
+        "rest": "⚪"
+    }
+
+    for i, day in enumerate(all_days):
+        day_label = weekday_map[day]
+        workout_exists = day in workout_map
+        completed = day_status.get(day, False)
+
+        icon = icons["completed"] if completed else icons["incomplete"] if workout_exists else icons["rest"]
+        button_label = f"{icon} {day_label}"
+
+        with cols[i]:
+            if st.button(button_label, key=f"day_{day}"):
+                st.session_state.selected_day = day
 else:
     st.warning("No workouts available for this week.")
+
 
 
 
@@ -159,33 +127,17 @@ if "selected_day" in st.session_state:
     if selected_day not in workout_map:
         st.info("🛌 Rest Day – No workout scheduled.")
     else:
-        sections = ["Warmup", "Strength", "Conditioning", "Cooldown"]
         st.markdown("### Sections")
-
-        if "pending_navigation" not in st.session_state:
-            st.session_state.pending_navigation = None
-
         for section in sections:
-            completed_resp = supabase.table("completion").select("completed").eq("user_id", user_id).eq("week", selected_week).eq("day", selected_day).eq("section", section).execute()
-            completed = completed_resp.data[0]['completed'] if completed_resp.data else False
+            completed = completion_lookup.get((selected_day, section), False)
+            icon = "✔️" if completed else "❌"
+            button_label = f"{icon} {section}"
 
-            button_color = "#4CAF50" if completed else "#F44336"
+            with st.form(f"{section}_form"):
+                if st.form_submit_button(button_label):
+                    st.success(f"You selected: {section}")
+                    st.session_state.selected_section = section
 
-            if st.button(section, key=f"{section}-btn"):
-                st.session_state.selected_section = section
-                st.switch_page("pages/details.py")
-
-            st.markdown(f"""
-                <style>
-                button[data-testid="baseButton"][aria-label="{section}-btn"] {{
-                    background-color: {button_color};
-                    color: white;
-                    border: none;
-                    padding: 0.5em 1em;
-                    border-radius: 5px;
-                }}
-                </style>
-            """, unsafe_allow_html=True)
 
 
 
