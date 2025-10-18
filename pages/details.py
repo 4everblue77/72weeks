@@ -80,7 +80,25 @@ if exercises:
 
     # ✅ Render as HTML table without index
     df_display = pd.DataFrame(expanded_rows)
-    st.markdown(df_display.to_html(index=False), unsafe_allow_html=True)
+    
+    # Add CSS for centering text
+    html_table = df_display.to_html(index=False)
+    centered_html = f"""
+    <style>
+    table {{
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+    }}
+    th, td {{
+        text-align: center;
+        padding: 8px;
+    }}
+    </style>
+    {html_table}
+    """
+    st.markdown(centered_html, unsafe_allow_html=True)
+
 else:
     st.warning("No exercises found.")
 
