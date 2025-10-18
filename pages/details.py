@@ -19,7 +19,7 @@ selected_week = st.session_state["selected_week"]
 selected_section = st.session_state["selected_section"]
 
 # --- Fetch Workout ---
-workout_resp = supabase.table("workouts").select("*").eq("week", {selected_week}).eq("day", selected_day).execute()
+workout_resp = supabase.table("workouts").select("*").eq("week", selected_week).eq("day", selected_day).execute()
 if not workout_resp.data:
     st.error("Workout not found.")
     st.stop()
