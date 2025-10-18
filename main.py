@@ -135,35 +135,37 @@ if "selected_day" in st.session_state:
         st.info("🛌 Rest Day – No workout scheduled.")
     else:
         st.markdown("### Sections")
+
+        # Inject CSS for styling buttons
+        st.markdown("""
+        <style>
+        div[data-testid="stButton"] > button {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75em 1em;
+            font-size: 1.1rem;
+            font-weight: 500;
+            background-color: #f0f2f6;
+            border-radius: 8px;
+            border: none;
+        }
+        div[data-testid="stButton"] > button:hover {
+            background-color: #e0e2e6;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
         for section in sections:
             completed = completion_lookup.get((selected_day, section), False)
-            icon = "✔️" if completed else "⚫"
-           
-          
-            with st.form(f"{section}_form"):
-                st.markdown(
-                    f"""
-                    <div style="
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        width: 100%;
-                        padding: 0.75em 1em;
-                        background-color: #f0f2f6;
-                        border-radius: 8px;
-                        font-size: 1.1rem;
-                        font-weight: 500;
-                        margin-bottom: 0.5em;
-                    ">
-                        <span>{section}</span>
-                        <span>{icon}</span>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-                if st.form_submit_button("", use_container_width=True):
-                    st.session_state.selected_section = section
-                    st.success(f"You selected: {section}")
+            icon = "✔️" if completed else "❌"
+            button_label = f"{section} {icon}"
+
+            if st.button(button_label, key=f"{section}_btn"):
+                st.session_state.selected_section = section
+                st.success(f"You selected: {section}")
+
 
 
 
