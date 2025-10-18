@@ -116,7 +116,7 @@ if workouts:
     
         with cols[i]:
             # Header with weekday initial
-            st.markdown(f"### {day_label[0]}")
+            st.markdown(f"{day_label[0]}")
     
             # Determine icon
             if workout_exists:
@@ -128,8 +128,7 @@ if workouts:
             highlight_style = ""
             if current_day_index is not None and day == current_day_index + 1:
                 highlight_style = "font-weight: bold;"
-            else:
-                highlight_style = "font-weight: light;"
+
 
 
   
