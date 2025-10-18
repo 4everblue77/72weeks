@@ -137,23 +137,23 @@ if workouts:
                         
                 submitted = st.form_submit_button("")
                         
-              # Capture selected day
-              if "selected_day" not in st.session_state:
-                  st.session_state.selected_day = None
-              
-              if submitted:
-                  selected_day = st.experimental_get_query_params().get("selected_day", [None])[0]
-                  if selected_day:
-                      st.session_state.selected_day = int(selected_day)
-              
-              # Show selected day
-              if st.session_state.selected_day:
-                  selected_day = st.session_state.selected_day
-                  st.write(f"Selected Day: {weekday_map[selected_day]} (Day {selected_day})")
-                  if selected_day not in workout_map:
-                      st.info("🛌 Rest Day – No workout scheduled.")
-                  else:
-                      st.success("🏋️ Workout scheduled!")
+                # Capture selected day
+                if "selected_day" not in st.session_state:
+                    st.session_state.selected_day = None
+                
+                if submitted:
+                    selected_day = st.experimental_get_query_params().get("selected_day", [None])[0]
+                    if selected_day:
+                        st.session_state.selected_day = int(selected_day)
+                
+                # Show selected day
+                if st.session_state.selected_day:
+                    selected_day = st.session_state.selected_day
+                    st.write(f"Selected Day: {weekday_map[selected_day]} (Day {selected_day})")
+                    if selected_day not in workout_map:
+                        st.info("🛌 Rest Day – No workout scheduled.")
+                    else:
+                        st.success("🏋️ Workout scheduled!")
 
     if not selected and "selected_day" not in st.session_state and current_day_index is not None:
         st.session_state.selected_day = current_day_index + 1
