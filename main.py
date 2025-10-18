@@ -12,10 +12,7 @@ user_id = "123e4567-e89b-12d3-a456-426614174000"
 
 st.set_page_config(page_title="OpenPrep Tracker", layout="wide", initial_sidebar_state="collapsed")
                    
-all_days = list(range(1, 8))  # Days 1 to 7 (Mon to Sun)
-weekday_map = {
-    1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
-}
+
 # Fixed start date
 START_DATE = datetime(2025, 10, 13)
 today = datetime.today()
@@ -91,7 +88,7 @@ for day in days:
 all_days = list(range(1, 8))  # Days 1 to 7 (Mon to Sun)
 workout_map = {w['day']: w for w in workouts}
 weekday_map = {
- # 1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
+  1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
 }
 
 
