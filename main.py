@@ -77,11 +77,11 @@ if "selected_week" not in st.session_state:
 col1, col2, col3 = st.columns([1, 2, 1])
 with col1:
     st.markdown('<div class="default-button">', unsafe_allow_html=True)
-    if st.button("⬅️ Previous Week",key=f"default-btn"):
+    if st.button("⬅️ Previous Week",key=f"default-btn-prev"):
         st.session_state.selected_week = max(1, st.session_state.selected_week - 1)
 with col3:
     st.markdown('<div class="default-button">', unsafe_allow_html=True)
-    if st.button("➡️ Next Week",key=f"default-btn"):
+    if st.button("➡️ Next Week",key=f"default-btn-next"):
         st.session_state.selected_week += 1
 
 selected_week = st.session_state.selected_week
