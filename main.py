@@ -95,7 +95,7 @@ weekday_map = {
 }
 
 
-if workouts is not None:
+if all_days:
     cols = st.columns(len(all_days))
     selected = False
   
