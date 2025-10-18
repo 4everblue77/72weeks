@@ -116,7 +116,7 @@ if workouts:
     
         with cols[i]:
             # Header with weekday initial
-            st.markdown(f"{day_label[0]}")
+            # st.markdown(f"{day_label[0]}")
     
             # Determine icon
             if workout_exists:
