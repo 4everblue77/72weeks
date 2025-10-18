@@ -25,12 +25,10 @@ if not selected_day or not selected_section or not selected_week:
 response = supabase.table("workouts").select("*").eq("week", f"Week {selected_week}").eq("day", selected_day).execute()
 workout = response.data[0]
 
-
 # Calculate date and day name
 start_date = datetime(2025, 10, 13) + timedelta(days=(selected_day - 1))
 day_name = start_date.strftime("%A")
 date_str = start_date.strftime("%b %d, %Y")
-
 
 # Header
 st.title(f"{selected_section} Details")
@@ -52,14 +50,28 @@ st.divider()
 if selected_section == "Warmup":
     st.subheader("Warmup")
     st.write(workout.get("warmup_description", "No details available"))
+
 elif selected_section == "Strength":
     st.subheader("Strength Exercises")
     exercises = workout.get("strength_exercises", [])
-    for ex in exercises:
-        st.markdown(f"- **{ex['name']}**: {ex['sets']} sets × {ex['reps']} reps @ {ex['weight']} kg")
+    if exercises:
+        st.table([
+            {
+                "Exercise": ex["name"],
+                "Sets": ex["sets"],
+                "Reps": ex["reps"],
+                "Weight (kg)": ex["weight"],
+                "Rest (sec)": ex.get("rest", workout.get("strength_rest_seconds", 60))
+            }
+            for ex in exercises
+        ])
+    else:
+        st.warning("No strength exercises found.")
+
 elif selected_section == "Conditioning":
     st.subheader("Conditioning")
     st.write(f"{workout.get('conditioning_description', '')} ({workout.get('conditioning_type', '')})")
+
 elif selected_section == "Cooldown":
     st.subheader("Cooldown")
     st.write(workout.get("cooldown_description", "No details available"))
