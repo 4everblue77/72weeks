@@ -42,8 +42,19 @@ selected_week = st.session_state.selected_week
 # Calculate week range
 week_start_date = START_DATE + timedelta(weeks=selected_week - 1)
 week_end_date = week_start_date + timedelta(days=6)
+
+
 week_range = f"Week {selected_week}: {week_start_date.strftime('%b %d')} - {week_end_date.strftime('%b %d')}"
 st.markdown(f"### 📅 {week_range}")
+
+# Determine today's day index (1 = Mon, ..., 7 = Sun)
+today_index = today.weekday() + 1  # Python weekday: 0=Mon, so +1 to match your map
+
+# If today is within the selected week and no day is selected yet, default to today
+if "selected_day" not in st.session_state:
+    if week_start_date <= today <= week_end_date:
+        st.session_state.selected_day = today_index
+
 
 # Determine current day index (0=Mon, 6=Sun)
 current_day_index = (today - week_start_date).days if week_start_date <= today <= week_end_date else None
