@@ -155,8 +155,7 @@ if workouts:
         else:
             st.success("🏋️ Workout scheduled!")
 
-    if not selected and "selected_day" not in st.session_state and current_day_index is not None:
-        st.session_state.selected_day = current_day_index + 1
+
 else:
     st.warning("No workouts available for this week.")
 
