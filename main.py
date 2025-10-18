@@ -101,38 +101,56 @@ if workouts:
 
 
 
+   
+    # Emoji indicators
+    icons = {
+        "completed": "✔️",   # You can also use "✅" or "✔️"
+        "incomplete": "⚫",
+        "rest": "⚪"
+    }
+    
     for i, day in enumerate(all_days):
         day_label = weekday_map[day]
         workout_exists = day in workout_map
         completed = day_status.get(day, False)
-
+    
         with cols[i]:
-            button_color = "#4CAF50" if workout_exists and completed else (
-                "#F44336" if workout_exists else "#DDDDDD"
-            )
-
+            # Header with weekday initial
+            st.markdown(f"### {day_label[0]}")
+    
+            # Determine icon
+            if workout_exists:
+                icon = f"{icons['completed']}" if completed else icons["incomplete"]
+            else:
+                icon = icons["rest"]
+    
             button_key = f"day-{day}"
             highlight_style = ""
             if current_day_index is not None and day == current_day_index + 1:
                 highlight_style = "font-weight: bold;"
 
+
+  
+            # Inject style
             st.markdown(f"""
                 <style>
                 button[data-testid="baseButton"][aria-label="{button_key}"] {{
-                    background-color: {button_color};
+                    background-color: transparent;
                     color: black;
-                    border: 1px solid #ccc;
-                    padding: 0.5em;
-                    border-radius: 5px;
-                    width: 100%;
+                    border: none;
+                    font-size: 1.5em;
                     {highlight_style}
                 }}
                 </style>
             """, unsafe_allow_html=True)
-
-            if st.button(day_label, key=button_key):
+    
+            # Render button
+            if st.button(icon, key=button_key):
                 st.session_state.selected_day = day
+                st.session_state.selected_section = None
                 selected = True
+
+
 
     if not selected and "selected_day" not in st.session_state and current_day_index is not None:
         st.session_state.selected_day = current_day_index + 1
