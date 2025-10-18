@@ -107,7 +107,7 @@ if workouts:
 
             # Weekday initial
             st.markdown(
-                f"<div style='text-align: center; font-weight: bold; font-size: 1.2rem;'>{day_label[0]}</div>",
+                f"<div style='text-align: left; font-weight: bold; font-size: 1.2rem;'>{day_label[0]}</div>",
                 unsafe_allow_html=True
             )
 
