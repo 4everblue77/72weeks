@@ -25,10 +25,12 @@ if not selected_day or not selected_section or not selected_week:
 response = supabase.table("workouts").select("*").eq("week", f"Week {selected_week}").eq("day", selected_day).execute()
 workout = response.data[0]
 
+
 # Calculate date and day name
-start_date = datetime(2025, 10, 13) + (selected_day - 1) * datetime.timedelta(days=1)
+start_date = datetime(2025, 10, 13) + timedelta(days=(selected_day - 1))
 day_name = start_date.strftime("%A")
 date_str = start_date.strftime("%b %d, %Y")
+
 
 # Header
 st.title(f"{selected_section} Details")
