@@ -85,6 +85,7 @@ day_status = {
 weekday_map = {1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"}
 all_days = list(range(1, 8))
 
+
 if workouts:
     st.markdown("### Select a Day")
     cols = st.columns(7)
@@ -100,23 +101,11 @@ if workouts:
         completed = day_status.get(day, False)
 
         icon = icons["completed"] if completed else icons["incomplete"] if workout_exists else icons["rest"]
-        button_label = f"{icon} {day_label}"
+        button_text = f"{day_label[0]}\n{icon}"
 
         with cols[i]:
-
-
-            # Weekday initial
-            st.markdown(
-                f"<div style='text-align: left; font-weight: bold; font-size: 1.2rem;'>{day_label[0]}</div>",
-                unsafe_allow_html=True
-            )
-
-            # Centered button with icon
-            if st.button(icon, key=f"day_{day}"):
+            if st.button(button_text, key=f"day_{day}"):
                 st.session_state.selected_day = day
-
-
-
 else:
     st.warning("No workouts available for this week.")
 
