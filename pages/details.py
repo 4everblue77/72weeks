@@ -6,16 +6,15 @@ import time
 from streamlit_autorefresh import st_autorefresh
 
 
+
 # Initialize session state
 if "rest_timer" not in st.session_state:
     st.session_state.rest_timer = {}
-if "trigger_rerun" not in st.session_state:
-    st.session_state.trigger_rerun = False
-
 
 # Auto-refresh every second if any timer is active
 if any(time.time() < end for end in st.session_state.rest_timer.values()):
-    st_autorefresh(interval=1000, limit=60, key="rest_refresh")
+    st_autorefresh(interval=1000, limit=None, key="rest_refresh")
+
 
 
     
@@ -115,6 +114,7 @@ if exercises:
             button_key = f"set_complete_{i}"
             timer_key = f"timer_{i}"
     
+
             # Start timer
             if cols[4].button("✅ Set Complete", key=button_key):
                 st.session_state.rest_timer[timer_key] = time.time() + int(row.get("Rest", 60))
@@ -127,6 +127,7 @@ if exercises:
                 else:
                     st.success("✅ Rest complete! Ready for next set.")
                     del st.session_state.rest_timer[timer_key]
+
     
 
 
