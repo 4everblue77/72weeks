@@ -98,9 +98,7 @@ weekday_map = {
 if workouts:
     cols = st.columns(len(all_days))
     selected = False
-  
-    st.write("Days with workouts:", days)
-    st.write("All days:", all_days)
+
 
 
     for i, day in enumerate(all_days):
