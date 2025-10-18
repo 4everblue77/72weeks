@@ -4,9 +4,13 @@ from supabase import create_client
 import pandas as pd
 import time
 
-# Initialize rest_timer dictionary in session state
+
+# Initialize session state
 if "rest_timer" not in st.session_state:
     st.session_state.rest_timer = {}
+if "trigger_rerun" not in st.session_state:
+    st.session_state.trigger_rerun = False
+
     
 # Supabase credentials
 SUPABASE_URL = "https://vsujjsdbwrcjgyqymjcq.supabase.co"
@@ -91,10 +95,7 @@ if exercises:
     if selected_section == "Strength":
         st.subheader("Strength Sets")
         
-        if "rest_timer" not in st.session_state:
-            st.session_state.rest_timer = {}
-        if "trigger_rerun" not in st.session_state:
-            st.session_state.trigger_rerun = False
+
 
         for i, row in enumerate(expanded_rows):
             cols = st.columns([3, 1, 1, 1, 2])
