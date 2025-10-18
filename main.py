@@ -35,11 +35,10 @@ div[data-testid="stButton"] > button:hover {
 
 
 
-# Add a wrapper div for section buttons and scoped CSS
+
 st.markdown("""
 <style>
 div.section-button > button {
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,6 +54,7 @@ div.section-button > button:hover {
 }
 </style>
 """, unsafe_allow_html=True)
+
 
                    
 
