@@ -7,3 +7,4 @@ pandas
 requests
 datetime
 schedule
+streamlit-autorefresh
