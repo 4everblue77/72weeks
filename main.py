@@ -34,10 +34,11 @@ div[data-testid="stButton"] > button:hover {
 """, unsafe_allow_html=True)
 
 
-# Inject CSS for section buttons only
+
+# Add a wrapper div for section buttons and scoped CSS
 st.markdown("""
 <style>
-div[data-testid="stButton"] > button {
+div.section-button > button {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -45,11 +46,11 @@ div[data-testid="stButton"] > button {
     padding: 0.75em 1em;
     font-size: 1.1rem;
     font-weight: 500;
-    background-color: #f0f2f6;
+    background-color: #ffffff;
     border-radius: 8px;
     border: none;
 }
-div[data-testid="stButton"] > button:hover {
+div.section-button > button:hover {
     background-color: #e0e2e6;
 }
 </style>
@@ -187,9 +188,14 @@ if "selected_day" in st.session_state:
             icon = "✔️" if completed else "❌"
             button_label = f"{section} {icon}"
 
+
+            # Wrap each button in a div with class 'section-button'
+            st.markdown('<div class="section-button">', unsafe_allow_html=True)
             if st.button(button_label, key=f"{section}_btn"):
                 st.session_state.selected_section = section
                 st.success(f"You selected: {section}")
+            st.markdown('</div>', unsafe_allow_html=True)
+
 
 
 
