@@ -27,7 +27,7 @@ workout = workout_resp.data[0]
 workout_id = workout["id"]
 
 # Fetch section
-section_resp = supabase.table("sections").select("*").eq("workout_id", workout_id).eq("section_type", selected_section.lower()).execute()
+section_resp = supabase.table("sections").select("*").eq("workout_id", workout_id).eq("section_type", selected_section).execute()
 if not section_resp.data:
     st.warning("No section found.")
     st.stop()
