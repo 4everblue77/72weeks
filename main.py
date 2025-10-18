@@ -140,7 +140,7 @@ if workouts:
   
   # Capture selected day
   if submitted:
-      selected_day = st.experimental_get_query_params().get("selected_day", [None])[0]
+      selected_day = st.query_params().get("selected_day", [None])[0]
       if selected_day:
           st.session_state.selected_day = int(selected_day)
 else:
