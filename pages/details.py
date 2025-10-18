@@ -2,6 +2,7 @@
 import streamlit as st
 from supabase import create_client
 from datetime import datetime, timedelta
+import json
 
 # Supabase credentials
 SUPABASE_URL = "https://vsujjsdbwrcjgyqymjcq.supabase.co"
@@ -53,20 +54,27 @@ if selected_section == "Warmup":
 
 elif selected_section == "Strength":
     st.subheader("Strength Exercises")
-    exercises = workout.get("strength_exercises", [])
+
+    exercises_raw = workout.get("strength_exercises", "[]")
+    try:
+        exercises = json.loads(exercises_raw) if isinstance(exercises_raw, str) else exercises_raw
+    except Exception:
+        exercises = []
+    
     if exercises:
         st.table([
             {
-                "Exercise": ex["name"],
-                "Sets": ex["sets"],
-                "Reps": ex["reps"],
-                "Weight (kg)": ex["weight"],
+                "Exercise": ex.get("name", ""),
+                "Sets": ex.get("sets", ""),
+                "Reps": ex.get("reps", ""),
+                "Weight (kg)": ex.get("weight", ""),
                 "Rest (sec)": ex.get("rest", workout.get("strength_rest_seconds", 60))
             }
             for ex in exercises
         ])
     else:
         st.warning("No strength exercises found.")
+
 
 elif selected_section == "Conditioning":
     st.subheader("Conditioning")
