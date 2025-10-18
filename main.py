@@ -88,91 +88,72 @@ for day in days:
 ##st.markdown("### Select a Day")
 
 
-all_days = list(range(1, 8))  # Days 1 to 7 (Mon to Sun)
+#all_days = list(range(1, 8))  # Days 1 to 7 (Mon to Sun)
 workout_map = {w['day']: w for w in workouts}
-weekday_map = {
+#weekday_map = {
     1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
 }
 
 
+all_days = list(range(1, 8))
+weekday_map = {1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"}
+icons = {
+    "completed": "✔️",
+    "incomplete": "⚫",
+    "rest": "⚪"
+}
+
+
+
 if workouts:
-    cols = st.columns(len(all_days))
-    selected = False
-
-
-
-   
-    # Emoji indicators
-    icons = {
-        "completed": "✔️",   # You can also use "✅" or "✔️"
-        "incomplete": "⚫",
-        "rest": "⚪"
-    }
     
-    for i, day in enumerate(all_days):
-        day_label = weekday_map[day]
-        workout_exists = day in workout_map
-        completed = day_status.get(day, False)
+    cols = st.columns(7)
+    with st.form("day_selector_form"):
+        for i, day in enumerate(all_days):
+            day_label = weekday_map[day]
+            workout_exists = day in workout_map
+            completed = day_status.get(day, False)
     
-        with cols[i]:
-            # Header with weekday initial
-            # st.markdown(f"{day_label[0]}")
-    
-            # Determine icon
             if workout_exists:
-                icon = f"{icons['completed']}" if completed else icons["incomplete"]
+                icon = icons["completed"] if completed else icons["incomplete"]
             else:
                 icon = icons["rest"]
-
-            is_today = current_day_index is not None and day == current_day_index + 1
-          
-            highlight_style = ""
-            if is_today:
-                highlight_style = "font-weight: bold;"
-            else:
-                highlight_style = "font-weight: light;"
-
-            # Weekday initial as header
-            st.markdown(f"<div style='text-align: center; {highlight_style}'>{day_label[0]}</div>", unsafe_allow_html=True)
-
-            button_key = f"day-{day}"
-
-  
-
-            # Custom button with no border and centered icon
-            button_clicked = st.button(icon, key=button_key)
     
-
-            # Inject scoped style to remove border and customize appearance
-            st.markdown(f"""
-                <style>
-                button[data-testid="baseButton"][aria-label="{button_key}"] {{
-                    background: none !important;
-                    border: none !important;
-                    box-shadow: none !important;
-                    outline: none !important;
-                    padding: 0 !important;
-                    margin: 0 auto !important;
-                    display: block !important;
-                    font-size: 2rem !important;
-                    color: black !important;
-                }}
-                button[data-testid="baseButton"][aria-label="{button_key}"]:hover {{
-                    background-color: transparent !important;
-                    transform: scale(1.2);
-                }}
-                </style>
-            """, unsafe_allow_html=True)
-
-
-    
-            if button_clicked:
-                st.session_state.selected_day = day
-                st.session_state.selected_section = None
-                selected = True
-
-
-
+            with cols[i]:
+                st.markdown(f"<div style='text-align: center; font-weight: bold; font-size: 1.2rem;'>{day_label[0]}</div>", unsafe_allow_html=True)
+                st.markdown(f"""
+                    <button type="submit" name="selected_day" value="{day}" style="
+                        background: none;
+                        border: none;
+                        box-shadow: none;
+                        outline: none;
+                        font-size: 2rem;
+                        color: black;
+                        cursor: pointer;
+                        display: block;
+                        margin: 0 auto;
+                        ">{icon}</button>
+                                    """, unsafe_allow_html=True)
+                        
+                            submitted = st.form_submit_button("")
+                        
+                        # Capture selected day
+                        if "selected_day" not in st.session_state:
+                            st.session_state.selected_day = None
+                        
+                        if submitted:
+                            selected_day = st.experimental_get_query_params().get("selected_day", [None])[0]
+                            if selected_day:
+                                st.session_state.selected_day = int(selected_day)
+                        
+                        # Show selected day
+                        if st.session_state.selected_day:
+                            selected_day = st.session_state.selected_day
+                            st.write(f"Selected Day: {weekday_map[selected_day]} (Day {selected_day})")
+                            if selected_day not in workout_map:
+                                st.info("🛌 Rest Day – No workout scheduled.")
+                            else:
+                                st.success("🏋️ Workout scheduled!")
 
     if not selected and "selected_day" not in st.session_state and current_day_index is not None:
         st.session_state.selected_day = current_day_index + 1
