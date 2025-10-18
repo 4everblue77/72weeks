@@ -79,8 +79,10 @@ if exercises:
             })
 
     
-    # ✅ Remove index by converting to list of dicts
-    st.table(pd.DataFrame(expanded_rows).to_dict(orient="records"))
+
+    # ✅ Pass list of dicts to st.table to hide index
+    st.table(expanded_rows)
+
 
 else:
     st.warning("No exercises found.")
