@@ -50,26 +50,21 @@ st.divider()
 st.subheader(f"{selected_section} Description")
 st.write(section.get("description", "No details available"))
 
-# --- JS Timer Renderer ---
-def render_js_timer(timer_id, seconds=60):
-    html_code = f"""
-    <div style="text-align: center; font-size: 24px; font-weight: bold; margin-top: 10px;">
-        ⏳ Rest Timer for Set {timer_id}: <span id="timer_{timer_id}">{seconds}</span> seconds
-    </div>
-    <script>
-        var seconds_{timer_id} = {seconds};
-        var timerDisplay_{timer_id} = document.getElementById('timer_{timer_id}');
-        var countdown_{timer_id} = setInterval(function() {{
-            seconds_{timer_id}--;
-            timerDisplay_{timer_id}.textContent = seconds_{timer_id};
-            if (seconds_{timer_id} <= 0) {{
-                clearInterval(countdown_{timer_id});
-                timerDisplay_{timer_id}.textContent = "✅ Done!";
-            }}
-        }}, 1000);
-    </script>
-    """
-    html(html_code, height=100)
+
+async def countdown_timer(seconds, placeholder):
+    for remaining in range(seconds, 0, -1):
+        mins, secs = divmod(remaining, 60)
+        timer_str = f"{mins:02d}:{secs:02d}"
+        placeholder.markdown(
+            f"<h1 style='text-align:center; color:#ec5953;'>{timer_str}</h1>",
+            unsafe_allow_html=True
+        )
+        await asyncio.sleep(1)
+    placeholder.markdown(
+        "<h1 style='text-align:center; color:green;'>✅ Done!</h1>",
+        unsafe_allow_html=True
+    )
+
 
 # --- Display Exercises ---
 if exercises:
@@ -109,7 +104,10 @@ if exercises:
             cols[3].write(f'{row["Weight"]} kg')
 
             if cols[4].button("✅ Set Complete", key=f"set_complete_{i}"):
-                render_js_timer(timer_id=i, seconds=int(row.get("Rest", 60)))
+                
+                timer_placeholder = st.empty()
+                asyncio.run(countdown_timer(int(row.get("Rest", 60)), timer_placeholder))
+
 
     # --- Non-Strength Section Static Table ---
     else:
