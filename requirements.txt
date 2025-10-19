@@ -8,3 +8,4 @@ requests
 datetime
 schedule
 streamlit-autorefresh
+asyncio
