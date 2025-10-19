@@ -3,6 +3,7 @@ import pandas as pd
 import time
 from supabase import create_client
 from streamlit.components.v1 import html
+import asyncio
 
 # --- Supabase Setup ---
 SUPABASE_URL = "https://vsujjsdbwrcjgyqymjcq.supabase.co"
