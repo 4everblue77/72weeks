@@ -114,7 +114,8 @@ if exercises:
             if cols[4].button("✅ Set Complete", key=f"set_complete_{i}"):
                 
                 timer_placeholder = st.empty()
-                asyncio.create_task(countdown_timer(int(row.get("Rest", 60)), timer_placeholder))
+                loop = asyncio.get_event_loop()
+                loop.run_until_complete(countdown_timer(int(row.get("Rest", 60)), timer_placeholder))
 
 
     # --- Non-Strength Section Static Table ---
