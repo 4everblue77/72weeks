@@ -58,6 +58,9 @@ st.write(section.get("description", "No details available"))
 
 
 
+
+timer_placeholders = {}
+
 async def countdown_timer(seconds, placeholder):
     for remaining in range(seconds, 0, -1):
         mins, secs = divmod(remaining, 60)
@@ -71,6 +74,7 @@ async def countdown_timer(seconds, placeholder):
         "<h1 style='text-align:center; color:green;'>✅ Done!</h1>",
         unsafe_allow_html=True
     )
+
 
 
 
@@ -113,9 +117,19 @@ if exercises:
 
             if cols[4].button("✅ Set Complete", key=f"set_complete_{i}"):
                 
+
+                # Clear previous timer if exists
+                if i in timer_placeholders:
+                    timer_placeholders[i].empty()
+            
+                # Create or reuse placeholder
                 timer_placeholder = st.empty()
+                timer_placeholders[i] = timer_placeholder
+            
+                # Start countdown
                 loop = asyncio.get_event_loop()
                 loop.run_until_complete(countdown_timer(int(row.get("Rest", 60)), timer_placeholder))
+
 
 
     # --- Non-Strength Section Static Table ---
