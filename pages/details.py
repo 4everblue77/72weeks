@@ -7,7 +7,7 @@ import asyncio
 import nest_asyncio
 nest_asyncio.apply()
 
-def render_js_timer(timer_id, seconds=60):
+def render_js_timer(timer_id, seconds):
     html_code = f"""
     <div style="text-align: center; font-size: 24px; font-weight: bold; margin-top: 10px;">
         ⏳ Rest Timer for Set {timer_id}: <span id="timer_{timer_id}">{seconds}</span> seconds
