@@ -139,7 +139,7 @@ if exercises:
             cols[3].write(f'{row["Weight"]} kg')
 
             if cols[4].button("✅ Set Complete", key=f"set_complete_{i}"):
-                render_js_timer(timer_id=i, seconds=int(row.get("Rest", 60)
+                render_js_timer(timer_id=i, seconds=int(row.get("Rest", 60)))
 
 
 
