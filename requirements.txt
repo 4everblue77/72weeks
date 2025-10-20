@@ -9,3 +9,4 @@ datetime
 schedule
 streamlit-autorefresh
 asyncio
+nest_asyncio
