@@ -7,6 +7,27 @@ import asyncio
 import nest_asyncio
 nest_asyncio.apply()
 
+def render_js_timer(timer_id, seconds=60):
+    html_code = f"""
+    <div style="text-align: center; font-size: 24px; font-weight: bold; margin-top: 10px;">
+        ⏳ Rest Timer for Set {timer_id}: <span id="timer_{timer_id}">{seconds}</span> seconds
+    </div>
+    <script>
+        var seconds_{timer_id} = {seconds};
+        var timerDisplay_{timer_id} = document.getElementById('timer_{timer_id}');
+        var countdown_{timer_id} = setInterval(function() {{
+            seconds_{timer_id}--;
+            if (seconds_{timer_id} >= 0) {{
+                timerDisplay_{timer_id}.textContent = seconds_{timer_id};
+            }} else {{
+                clearInterval(countdown_{timer_id});
+                timerDisplay_{timer_id}.textContent = "✅ Done!";
+                timerDisplay_{timer_id}.style.color = "green";
+            }}
+        }}, 1000);
+    </script>
+    """
+    html(html_code, height=100)
 
 # --- Supabase Setup ---
 SUPABASE_URL = "https://vsujjsdbwrcjgyqymjcq.supabase.co"
@@ -21,6 +42,8 @@ if "selected_day" not in st.session_state or "selected_week" not in st.session_s
 selected_day = st.session_state["selected_day"]
 selected_week = st.session_state["selected_week"]
 selected_section = st.session_state["selected_section"]
+
+
 
 
 
@@ -116,19 +139,7 @@ if exercises:
             cols[3].write(f'{row["Weight"]} kg')
 
             if cols[4].button("✅ Set Complete", key=f"set_complete_{i}"):
-                
-
-                # Clear previous timer if exists
-                if i in timer_placeholders:
-                    timer_placeholders[i].empty()
-            
-                # Create or reuse placeholder
-                timer_placeholder = st.empty()
-                timer_placeholders[i] = timer_placeholder
-            
-                # Start countdown
-                loop = asyncio.get_event_loop()
-                loop.run_until_complete(countdown_timer(int(row.get("Rest", 60)), timer_placeholder))
+                render_js_timer(timer_id=i, seconds=int(row.get("Rest", 60)
 
 
 
