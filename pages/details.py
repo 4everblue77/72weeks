@@ -4,6 +4,9 @@ import time
 from supabase import create_client
 from streamlit.components.v1 import html
 import asyncio
+import nest_asyncio
+nest_asyncio.apply()
+
 
 # --- Supabase Setup ---
 SUPABASE_URL = "https://vsujjsdbwrcjgyqymjcq.supabase.co"
